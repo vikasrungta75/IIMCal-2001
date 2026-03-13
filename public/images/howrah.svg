@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="dusk" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a4e"/>
+      <stop offset="50%" style="stop-color:#c0392b" stop-opacity="0.6"/>
+      <stop offset="100%" style="stop-color:#f39c12" stop-opacity="0.8"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a5c"/>
+      <stop offset="100%" style="stop-color:#0d2137"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky at dusk -->
+  <rect width="1200" height="600" fill="url(#dusk)"/>
+  <!-- Stars -->
+  <circle cx="100" cy="50" r="2" fill="white" opacity="0.8"/>
+  <circle cx="300" cy="80" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="900" cy="40" r="2" fill="white" opacity="0.9"/>
+  <circle cx="1100" cy="70" r="1.5" fill="white" opacity="0.7"/>
+  <!-- River Hooghly -->
+  <rect x="0" y="420" width="1200" height="180" fill="url(#river)"/>
+  <!-- River shimmer -->
+  <ellipse cx="300" cy="470" rx="120" ry="15" fill="#4A90C4" opacity="0.3"/>
+  <ellipse cx="700" cy="490" rx="150" ry="12" fill="#4A90C4" opacity="0.2"/>
+  <ellipse cx="1000" cy="460" rx="100" ry="10" fill="#4A90C4" opacity="0.3"/>
+  <!-- Bridge towers -->
+  <rect x="280" y="150" width="30" height="280" fill="#555" />
+  <rect x="890" y="150" width="30" height="280" fill="#555"/>
+  <!-- Tower tops -->
+  <polygon points="280,150 295,120 310,150" fill="#444"/>
+  <polygon points="890,150 905,120 920,150" fill="#444"/>
+  <!-- Main arch cables -->
+  <path d="M 295 150 Q 600 80 905 150" stroke="#888" stroke-width="4" fill="none"/>
+  <path d="M 295 160 Q 600 95 905 160" stroke="#777" stroke-width="3" fill="none"/>
+  <!-- Vertical cable hangers -->
+  <line x1="350" y1="130" x2="350" y2="280" stroke="#666" stroke-width="2"/>
+  <line x1="420" y1="110" x2="420" y2="280" stroke="#666" stroke-width="2"/>
+  <line x1="490" y1="98" x2="490" y2="280" stroke="#666" stroke-width="2"/>
+  <line x1="560" y1="92" x2="560" y2="280" stroke="#666" stroke-width="2"/>
+  <line x1="630" y1="92" x2="630" y2="280" stroke="#666" stroke-width="2"/>
+  <line x1="700" y1="98" x2="700" y2="280" stroke="#666" stroke-width="2"/>
+  <line x1="770" y1="110" x2="770" y2="280" stroke="#666" stroke-width="2"/>
+  <line x1="840" y1="128" x2="840" y2="280" stroke="#666" stroke-width="2"/>
+  <!-- Bridge road deck -->
+  <rect x="280" y="280" width="650" height="18" fill="#444"/>
+  <!-- Bridge lights -->
+  <circle cx="350" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <circle cx="420" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <circle cx="490" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <circle cx="560" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <circle cx="630" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <circle cx="700" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <circle cx="770" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <circle cx="840" cy="285" r="4" fill="#FFD700" opacity="0.9"/>
+  <!-- Reflection in water -->
+  <path d="M 295 430 Q 600 480 905 430" stroke="#666" stroke-width="2" fill="none" opacity="0.4"/>
+  <!-- City silhouette -->
+  <rect x="0" y="370" width="100" height="50" fill="#1a1a1a"/>
+  <rect x="1100" y="360" width="100" height="60" fill="#1a1a1a"/>
+  <text x="600" y="560" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#C8A951" font-weight="bold">Howrah Bridge — Kolkata</text>
+</svg>

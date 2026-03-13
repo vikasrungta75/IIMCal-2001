@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar';
 import { Pin, Calendar, Tag, Bell } from 'lucide-react';
 
 const IMGS = {
-  campus: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
-  howrah: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
+  campus: '/images/campus.svg',
+  howrah: '/images/howrah.svg',
 };
 
 const CATEGORIES = ['all', 'important', 'event', 'logistics', 'general'];

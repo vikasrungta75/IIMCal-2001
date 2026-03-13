@@ -41,7 +41,7 @@ export default function LoginPage() {
       {/* Left: campus image panel (hidden on mobile) */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden flex-col justify-end p-12">
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg"
+          src="/images/campus.svg"
           alt="IIM Calcutta Campus"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
         />
@@ -65,7 +65,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <Link href="/">
-              <SafeImage src="https://www.iimcal.ac.in/sites/default/files/white-logo.png" alt="IIM Calcutta" className="h-14 mx-auto mb-4 object-contain" />
+              <SafeImage src="/images/logo-white.svg" alt="IIM Calcutta" className="h-14 mx-auto mb-4 object-contain" />
             </Link>
             <h1 className="font-display text-3xl font-bold text-white mb-1">Welcome Back</h1>
             <p style={{ color: '#C8A951' }} className="text-sm">Silver Jubilee Alumni Portal</p>

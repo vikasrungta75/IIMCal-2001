@@ -7,10 +7,10 @@ import { User, Plane, Bell, Users, Calendar, MapPin, Award, Clock } from 'lucide
 
 // Free-use Wikimedia Commons images
 const IMGS = {
-  campusAerial: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
-  kolkataGhat: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
-  victoria: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg/1280px-Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg',
-  howrah: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
+  campusAerial: '/images/campus.svg',
+  kolkataGhat: '/images/howrah.svg',
+  victoria: '/images/victoria.svg',
+  howrah: '/images/howrah.svg',
 };
 
 export default async function DashboardPage() {

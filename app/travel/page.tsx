@@ -4,10 +4,10 @@ import Navbar from '@/components/Navbar';
 import { Plane, Train, Car, Hotel, Home, Save, CheckCircle, MapPin, Clock } from 'lucide-react';
 
 const IMGS = {
-  howrah: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
-  kolkataTaxi: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kolkata_yellow_taxi.jpg/1280px-Kolkata_yellow_taxi.jpg',
-  victoria: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg/1280px-Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg',
-  campus: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
+  howrah: '/images/howrah.svg',
+  kolkataTaxi: '/images/taxi.svg',
+  victoria: '/images/victoria.svg',
+  campus: '/images/campus.svg',
 };
 
 const travelModeIcon = (mode: string) => {

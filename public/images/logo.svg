@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <text x="100" y="30" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#C8A951" font-weight="bold">IIM</text>
+  <text x="100" y="52" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#003366" letter-spacing="2">CALCUTTA</text>
+  <line x1="30" y1="58" x2="170" y2="58" stroke="#C8A951" stroke-width="1.5"/>
+  <text x="100" y="72" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#003366" letter-spacing="1">EST. 1961</text>
+</svg>

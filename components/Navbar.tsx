@@ -46,7 +46,7 @@ export default function Navbar({ user }: { user?: NavUser | null }) {
           {/* Logo */}
           <Link href={user ? '/dashboard' : '/'} className="flex items-center gap-3">
             <img
-              src="https://www.iimcal.ac.in/sites/default/files/white-logo.png"
+              src="/images/logo-white.svg"
               alt="IIM Calcutta"
               className="h-9 w-auto object-contain"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}

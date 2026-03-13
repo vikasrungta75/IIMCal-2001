@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB"/>
+      <stop offset="100%" style="stop-color:#E0F4FF"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a7c59"/>
+      <stop offset="100%" style="stop-color:#2d5a3d"/>
+    </linearGradient>
+    <linearGradient id="building" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8D5A3"/>
+      <stop offset="100%" style="stop-color:#C8A951"/>
+    </linearGradient>
+    <linearGradient id="overlay" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:rgba(0,30,60,0)" stop-opacity="0"/>
+      <stop offset="100%" style="stop-color:#001a33" stop-opacity="0.7"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="1200" height="600" fill="url(#sky)"/>
+  <!-- Clouds -->
+  <ellipse cx="200" cy="100" rx="80" ry="30" fill="white" opacity="0.8"/>
+  <ellipse cx="240" cy="90" rx="60" ry="25" fill="white" opacity="0.9"/>
+  <ellipse cx="800" cy="130" rx="100" ry="35" fill="white" opacity="0.7"/>
+  <ellipse cx="850" cy="118" rx="70" ry="28" fill="white" opacity="0.8"/>
+  <!-- Ground/lawn -->
+  <rect x="0" y="420" width="1200" height="180" fill="url(#ground)"/>
+  <!-- Lake -->
+  <ellipse cx="600" cy="460" rx="250" ry="50" fill="#5BA4CF" opacity="0.7"/>
+  <ellipse cx="600" cy="460" rx="240" ry="42" fill="#4A90C4" opacity="0.5"/>
+  <!-- Main Building (MDC style) -->
+  <rect x="350" y="200" width="500" height="220" fill="url(#building)" rx="4"/>
+  <!-- Building windows -->
+  <rect x="380" y="230" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="440" y="230" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="500" y="230" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="560" y="230" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="620" y="230" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="680" y="230" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="740" y="230" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="380" y="300" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="440" y="300" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="500" y="300" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="560" y="300" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="620" y="300" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="680" y="300" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <rect x="740" y="300" width="40" height="50" fill="#003366" opacity="0.6" rx="2"/>
+  <!-- Entrance -->
+  <rect x="560" y="340" width="80" height="80" fill="#8B6914" rx="2"/>
+  <!-- Columns -->
+  <rect x="370" y="190" width="20" height="230" fill="#D4A843" rx="2"/>
+  <rect x="810" y="190" width="20" height="230" fill="#D4A843" rx="2"/>
+  <!-- Roof -->
+  <polygon points="330,200 870,200 870,185 600,150 330,185" fill="#C8A951"/>
+  <!-- Trees -->
+  <circle cx="150" cy="370" r="60" fill="#2d7a3d"/>
+  <rect x="143" y="390" width="14" height="50" fill="#5a3825"/>
+  <circle cx="1050" cy="350" r="70" fill="#2d7a3d"/>
+  <rect x="1043" y="370" width="14" height="60" fill="#5a3825"/>
+  <circle cx="280" cy="390" r="45" fill="#3a8a4d"/>
+  <circle cx="920" cy="380" r="50" fill="#3a8a4d"/>
+  <!-- Overlay -->
+  <rect width="1200" height="600" fill="url(#overlay)"/>
+  <!-- Text label -->
+  <text x="600" y="540" text-anchor="middle" font-family="Georgia, serif" font-size="28" fill="#C8A951" font-weight="bold">IIM Calcutta — Joka Campus</text>
+</svg>

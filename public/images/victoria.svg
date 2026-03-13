@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="bluehour" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a1628"/>
+      <stop offset="60%" style="stop-color:#1a3a6e"/>
+      <stop offset="100%" style="stop-color:#2a5aae" stop-opacity="0.5"/>
+    </linearGradient>
+    <linearGradient id="marble" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f5f0e8"/>
+      <stop offset="100%" style="stop-color:#e8dcc8"/>
+    </linearGradient>
+  </defs>
+  <!-- Night sky - blue hour -->
+  <rect width="1200" height="600" fill="url(#bluehour)"/>
+  <!-- Stars -->
+  <circle cx="150" cy="60" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="400" cy="40" r="2" fill="white" opacity="0.6"/>
+  <circle cx="700" cy="30" r="1.5" fill="white" opacity="0.9"/>
+  <circle cx="1000" cy="55" r="2" fill="white" opacity="0.7"/>
+  <circle cx="1150" cy="35" r="1.5" fill="white" opacity="0.8"/>
+  <!-- Grounds / lawn -->
+  <rect x="0" y="430" width="1200" height="170" fill="#0d2a0d"/>
+  <!-- Reflection pool -->
+  <ellipse cx="600" cy="460" rx="300" ry="30" fill="#1a3a6e" opacity="0.6"/>
+  <!-- Victoria Memorial main dome -->
+  <ellipse cx="600" cy="220" rx="80" ry="90" fill="url(#marble)"/>
+  <!-- Drum of dome -->
+  <rect x="530" y="270" width="140" height="40" fill="url(#marble)"/>
+  <!-- Main building body -->
+  <rect x="300" y="310" width="600" height="150" fill="url(#marble)"/>
+  <!-- Side wings -->
+  <rect x="200" y="340" width="120" height="110" fill="#ede5d0"/>
+  <rect x="880" y="340" width="120" height="110" fill="#ede5d0"/>
+  <!-- Columns -->
+  <rect x="320" y="310" width="12" height="150" fill="#d4c9a8"/>
+  <rect x="360" y="310" width="12" height="150" fill="#d4c9a8"/>
+  <rect x="400" y="310" width="12" height="150" fill="#d4c9a8"/>
+  <rect x="820" y="310" width="12" height="150" fill="#d4c9a8"/>
+  <rect x="860" y="310" width="12" height="150" fill="#d4c9a8"/>
+  <rect x="868" y="310" width="12" height="150" fill="#d4c9a8"/>
+  <!-- Corner towers -->
+  <rect x="290" y="280" width="30" height="170" fill="#e8dcc8"/>
+  <rect x="880" y="280" width="30" height="170" fill="#e8dcc8"/>
+  <ellipse cx="305" cy="280" rx="20" ry="20" fill="#e0d4b8"/>
+  <ellipse cx="895" cy="280" rx="20" ry="20" fill="#e0d4b8"/>
+  <!-- Entrance gate -->
+  <rect x="560" y="380" width="80" height="80" fill="#c8bda0"/>
+  <ellipse cx="600" cy="385" rx="35" ry="20" fill="#b8a88c"/>
+  <!-- Illumination glow -->
+  <ellipse cx="600" cy="400" rx="400" ry="80" fill="#f5c842" opacity="0.08"/>
+  <!-- Reflection -->
+  <ellipse cx="600" cy="460" rx="200" ry="20" fill="#f5f0e8" opacity="0.1"/>
+  <text x="600" y="560" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#C8A951" font-weight="bold">Victoria Memorial — Kolkata</text>
+</svg>

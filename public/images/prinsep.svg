@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="sunset" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b35"/>
+      <stop offset="40%" style="stop-color:#f7931e"/>
+      <stop offset="100%" style="stop-color:#ffcd3c"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a6496"/>
+      <stop offset="100%" style="stop-color:#1a4a70"/>
+    </linearGradient>
+  </defs>
+  <!-- Sunset sky -->
+  <rect width="1200" height="600" fill="url(#sunset)"/>
+  <!-- Sun -->
+  <circle cx="600" cy="200" r="60" fill="#FFD700" opacity="0.9"/>
+  <circle cx="600" cy="200" r="45" fill="#FFEC6E"/>
+  <!-- River -->
+  <rect x="0" y="380" width="1200" height="220" fill="url(#water)"/>
+  <!-- River ripples/shimmer -->
+  <ellipse cx="300" cy="420" rx="150" ry="12" fill="#f7931e" opacity="0.2"/>
+  <ellipse cx="700" cy="440" rx="200" ry="10" fill="#f7931e" opacity="0.15"/>
+  <ellipse cx="1000" cy="415" rx="130" ry="8" fill="#f7931e" opacity="0.2"/>
+  <!-- Sun reflection on water -->
+  <ellipse cx="600" cy="430" rx="60" ry="80" fill="#FFD700" opacity="0.15"/>
+  <!-- Prinsep Ghat arched structure -->
+  <!-- Base platform -->
+  <rect x="300" y="330" width="600" height="60" fill="#e8dcc8"/>
+  <!-- Main colonnade with arches -->
+  <rect x="310" y="220" width="580" height="120" fill="#d4c4a0"/>
+  <!-- Arched openings -->
+  <path d="M 330 340 L 330 270 Q 370 240 410 270 L 410 340 Z" fill="#4a7abf" opacity="0.6"/>
+  <path d="M 430 340 L 430 270 Q 470 240 510 270 L 510 340 Z" fill="#4a7abf" opacity="0.6"/>
+  <path d="M 530 340 L 530 270 Q 570 240 610 270 L 610 340 Z" fill="#4a7abf" opacity="0.6"/>
+  <path d="M 630 340 L 630 270 Q 670 240 710 270 L 710 340 Z" fill="#4a7abf" opacity="0.6"/>
+  <path d="M 730 340 L 730 270 Q 770 240 810 270 L 810 340 Z" fill="#4a7abf" opacity="0.6"/>
+  <path d="M 830 340 L 830 270 Q 870 240 870 270 L 870 340 Z" fill="#4a7abf" opacity="0.6"/>
+  <!-- Columns between arches -->
+  <rect x="310" y="220" width="20" height="120" fill="#c8b890"/>
+  <rect x="410" y="220" width="20" height="120" fill="#c8b890"/>
+  <rect x="510" y="220" width="20" height="120" fill="#c8b890"/>
+  <rect x="610" y="220" width="20" height="120" fill="#c8b890"/>
+  <rect x="710" y="220" width="20" height="120" fill="#c8b890"/>
+  <rect x="810" y="220" width="20" height="120" fill="#c8b890"/>
+  <rect x="870" y="220" width="20" height="120" fill="#c8b890"/>
+  <!-- Rooftop balustrade -->
+  <rect x="300" y="205" width="600" height="20" fill="#c8b890"/>
+  <!-- Corner towers/domes -->
+  <ellipse cx="315" cy="205" rx="20" ry="22" fill="#d4c4a0"/>
+  <ellipse cx="885" cy="205" rx="20" ry="22" fill="#d4c4a0"/>
+  <!-- Steps to water -->
+  <rect x="420" y="390" width="360" height="12" fill="#d4c4a0"/>
+  <rect x="440" y="402" width="320" height="12" fill="#c8b890"/>
+  <rect x="460" y="414" width="280" height="12" fill="#bca880"/>
+  <!-- Boat silhouette -->
+  <path d="M 150 430 Q 200 415 250 430 Q 250 445 150 445 Z" fill="#333"/>
+  <rect x="190" y="405" width="8" height="30" fill="#555"/>
+  <!-- People silhouettes -->
+  <ellipse cx="500" cy="370" rx="12" ry="20" fill="#2a2a2a"/>
+  <ellipse cx="650" cy="368" rx="11" ry="19" fill="#2a2a2a"/>
+  <ellipse cx="720" cy="372" rx="12" ry="18" fill="#2a2a2a"/>
+  <!-- Trees -->
+  <circle cx="160" cy="310" r="50" fill="#1a5c1a" opacity="0.8"/>
+  <rect x="153" y="330" width="14" height="70" fill="#5a3825"/>
+  <circle cx="1040" cy="300" r="55" fill="#1a5c1a" opacity="0.8"/>
+  <rect x="1033" y="320" width="14" height="80" fill="#5a3825"/>
+  <text x="600" y="570" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#003366" font-weight="bold">Prinsep Ghat — Kolkata</text>
+</svg>

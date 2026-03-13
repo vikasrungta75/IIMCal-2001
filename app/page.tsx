@@ -7,20 +7,20 @@ import SafeImage from '@/components/SafeImage';
 
 // Free-use image URLs from Wikimedia Commons and official IIMC sources
 const IMAGES = {
-  campusMain: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
-  auditorium: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/IIM_Calcutta_Main_Building.jpg/1280px-IIM_Calcutta_Main_Building.jpg',
-  logo: 'https://www.iimcal.ac.in/sites/default/files/logo.png',
-  logoWhite: 'https://www.iimcal.ac.in/sites/default/files/white-logo.png',
+  campusMain: '/images/campus.svg',
+  auditorium: '/images/campus.svg',
+  logo: '/images/logo.svg',
+  logoWhite: '/images/logo-white.svg',
   // Kolkata landmarks - Wikimedia Commons free use
-  howrahBridge: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
-  victoriaMemorial: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg/1280px-Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg',
-  kolkataStreet: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kolkata_yellow_taxi.jpg/1280px-Kolkata_yellow_taxi.jpg',
+  howrahBridge: '/images/howrah.svg',
+  victoriaMemorial: '/images/victoria.svg',
+  kolkataStreet: '/images/taxi.svg',
   // Additional Kolkata landmarks
-  edenGardens: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eden_Gardens_-_Test_Match_2.jpg/1280px-Eden_Gardens_-_Test_Match_2.jpg',
-  durgaPuja: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Durga_Puja_Kolkata_2012.jpg/1280px-Durga_Puja_Kolkata_2012.jpg',
+  edenGardens: '/images/eden.svg',
+  durgaPuja: '/images/durgapuja.svg',
   scienceCity: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Science_City%2C_Kolkata.jpg/1280px-Science_City%2C_Kolkata.jpg',
-  kolkataGhat: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Prinsep_Ghat_Kolkata.jpg/1280px-Prinsep_Ghat_Kolkata.jpg',
-  streetFood: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kolkata_yellow_taxi.jpg/1280px-Kolkata_yellow_taxi.jpg',
+  kolkataGhat: '/images/prinsep.svg',
+  streetFood: '/images/taxi.svg',
 };
 
 export default async function HomePage() {

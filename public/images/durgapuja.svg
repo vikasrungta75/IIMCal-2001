@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="night" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a2e"/>
+      <stop offset="100%" style="stop-color:#1a1a4e"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FF8C00"/>
+    </linearGradient>
+  </defs>
+  <!-- Night sky -->
+  <rect width="1200" height="600" fill="url(#night)"/>
+  <!-- Stars -->
+  <circle cx="100" cy="50" r="2" fill="white" opacity="0.9"/>
+  <circle cx="300" cy="30" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="600" cy="45" r="2" fill="white" opacity="0.7"/>
+  <circle cx="900" cy="25" r="1.5" fill="white" opacity="0.9"/>
+  <circle cx="1100" cy="55" r="2" fill="white" opacity="0.8"/>
+  <!-- Pandal structure -->
+  <!-- Main arch/gate -->
+  <rect x="350" y="100" width="500" height="380" fill="#8B4513" opacity="0.3"/>
+  <!-- Grand arch -->
+  <path d="M 350 480 L 350 200 Q 600 80 850 200 L 850 480 Z" fill="none" stroke="#FFD700" stroke-width="6"/>
+  <path d="M 380 480 L 380 215 Q 600 110 820 215 L 820 480 Z" fill="rgba(255,165,0,0.1)"/>
+  <!-- Decorative spires on top -->
+  <polygon points="600,75 590,110 610,110" fill="#FFD700"/>
+  <polygon points="490,140 482,165 498,165" fill="#FF8C00"/>
+  <polygon points="710,140 702,165 718,165" fill="#FF8C00"/>
+  <!-- Durga idol silhouette (simplified) -->
+  <ellipse cx="600" cy="310" rx="40" ry="50" fill="#FFD700" opacity="0.8"/>
+  <ellipse cx="600" cy="270" rx="20" ry="25" fill="#FFD700" opacity="0.9"/>
+  <!-- Crown/mukut -->
+  <polygon points="580,248 590,225 600,248 610,225 620,248" fill="#FF8C00"/>
+  <!-- Arms (multi-armed) -->
+  <line x1="560" y1="295" x2="500" y2="260" stroke="#FFD700" stroke-width="4"/>
+  <line x1="560" y1="305" x2="510" y2="290" stroke="#FFD700" stroke-width="4"/>
+  <line x1="640" y1="295" x2="700" y2="260" stroke="#FFD700" stroke-width="4"/>
+  <line x1="640" y1="305" x2="690" y2="290" stroke="#FFD700" stroke-width="4"/>
+  <!-- Decorative lights/strings -->
+  <path d="M 350 200 Q 475 230 600 220 Q 725 230 850 200" stroke="#FFD700" stroke-width="2" fill="none" opacity="0.7"/>
+  <!-- Light bulbs -->
+  <circle cx="380" cy="200" r="4" fill="#FFD700"/>
+  <circle cx="450" cy="215" r="4" fill="#FF8C00"/>
+  <circle cx="530" cy="220" r="4" fill="#FFD700"/>
+  <circle cx="600" cy="220" r="4" fill="#FF8C00"/>
+  <circle cx="670" cy="220" r="4" fill="#FFD700"/>
+  <circle cx="750" cy="215" r="4" fill="#FF8C00"/>
+  <circle cx="820" cy="200" r="4" fill="#FFD700"/>
+  <!-- Ground glow -->
+  <ellipse cx="600" cy="490" rx="350" ry="60" fill="#FFD700" opacity="0.06"/>
+  <!-- Crowd silhouettes -->
+  <rect x="50" y="460" width="30" height="80" fill="#111" rx="5"/>
+  <rect x="100" y="450" width="25" height="90" fill="#111" rx="5"/>
+  <rect x="1100" y="455" width="30" height="85" fill="#111" rx="5"/>
+  <rect x="1050" y="465" width="25" height="75" fill="#111" rx="5"/>
+  <!-- Incense smoke -->
+  <path d="M 550 400 Q 545 370 555 350 Q 550 330 558 310" stroke="#aaa" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M 650 400 Q 655 370 645 350 Q 650 330 642 310" stroke="#aaa" stroke-width="2" fill="none" opacity="0.5"/>
+  <text x="600" y="565" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#FFD700" font-weight="bold">Durga Puja — Kolkata</text>
+</svg>

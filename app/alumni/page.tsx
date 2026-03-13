@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar';
 import { Search, MapPin, Building, Linkedin, Users } from 'lucide-react';
 
 const IMGS = {
-  campus: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
-  kolkata: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg/1280px-Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg',
+  campus: '/images/campus.svg',
+  kolkata: '/images/victoria.svg',
 };
 
 export default function AlumniPage() {

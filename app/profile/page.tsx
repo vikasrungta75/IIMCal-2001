@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar';
 import { Save, User, Briefcase, MapPin, Phone, Link2, FileText, CheckCircle } from 'lucide-react';
 
 const IMGS = {
-  campus: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
-  kolkata: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kolkata_yellow_taxi.jpg/1280px-Kolkata_yellow_taxi.jpg',
+  campus: '/images/campus.svg',
+  kolkata: '/images/taxi.svg',
 };
 
 export default function ProfilePage() {

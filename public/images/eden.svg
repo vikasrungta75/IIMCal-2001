@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <defs>
+    <linearGradient id="sky2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a6bb5"/>
+      <stop offset="100%" style="stop-color:#5aa0e0"/>
+    </linearGradient>
+    <linearGradient id="pitch" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d8a2d"/>
+      <stop offset="100%" style="stop-color:#1a5c1a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#sky2)"/>
+  <!-- Stadium outer structure -->
+  <ellipse cx="600" cy="350" rx="520" ry="280" fill="#e8dcc8"/>
+  <ellipse cx="600" cy="350" rx="490" ry="255" fill="#c8b890"/>
+  <!-- Stands tiers -->
+  <ellipse cx="600" cy="350" rx="460" ry="235" fill="#d4c4a0"/>
+  <ellipse cx="600" cy="350" rx="420" ry="210" fill="#5a7a9a"/>
+  <ellipse cx="600" cy="350" rx="380" ry="185" fill="#4a6a8a"/>
+  <!-- Crowd dots (simplified) -->
+  <ellipse cx="600" cy="350" rx="370" ry="178" fill="#3a5a7a"/>
+  <!-- The pitch (oval) -->
+  <ellipse cx="600" cy="380" rx="280" ry="160" fill="url(#pitch)"/>
+  <!-- Pitch lines -->
+  <ellipse cx="600" cy="380" rx="270" ry="152" fill="none" stroke="#4a9a4a" stroke-width="2"/>
+  <!-- 22-yard pitch strip -->
+  <rect x="572" y="300" width="56" height="160" fill="#8fbe5a" opacity="0.6"/>
+  <!-- Wicket marks -->
+  <line x1="590" y1="305" x2="610" y2="305" stroke="white" stroke-width="2"/>
+  <line x1="590" y1="455" x2="610" y2="455" stroke="white" stroke-width="2"/>
+  <!-- Floodlights -->
+  <rect x="130" y="50" width="12" height="200" fill="#888"/>
+  <rect x="115" y="45" width="42" height="15" fill="#FFD700"/>
+  <rect x="1058" y="50" width="12" height="200" fill="#888"/>
+  <rect x="1043" y="45" width="42" height="15" fill="#FFD700"/>
+  <rect x="130" y="50" width="12" height="120" fill="#aaa"/>
+  <!-- Score board -->
+  <rect x="480" y="170" width="240" height="80" fill="#1a1a1a" rx="4"/>
+  <text x="600" y="200" text-anchor="middle" font-family="Arial" font-size="14" fill="#FFD700">EDEN GARDENS</text>
+  <text x="600" y="225" text-anchor="middle" font-family="Arial" font-size="20" fill="white" font-weight="bold">IND 287 - 4</text>
+  <text x="600" y="560" text-anchor="middle" font-family="Georgia, serif" font-size="26" fill="#C8A951" font-weight="bold">Eden Gardens — Kolkata</text>
+</svg>
