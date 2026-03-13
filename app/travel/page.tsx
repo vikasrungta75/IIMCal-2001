@@ -1,238 +1,209 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import { Plane, Train, Car, Hotel, Home, Save, CheckCircle } from 'lucide-react';
+import { Plane, Train, Car, Hotel, Home, Save, CheckCircle, MapPin, Clock } from 'lucide-react';
+
+const IMGS = {
+  howrah: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
+  kolkataTaxi: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kolkata_yellow_taxi.jpg/1280px-Kolkata_yellow_taxi.jpg',
+  victoria: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg/1280px-Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg',
+  campus: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
+};
+
+const travelModeIcon = (mode: string) => {
+  if (mode === 'flight') return <Plane size={16} />;
+  if (mode === 'train') return <Train size={16} />;
+  return <Car size={16} />;
+};
 
 export default function TravelPage() {
   const [user, setUser] = useState<any>(null);
   const [form, setForm] = useState({
-    arrivalDate: '', arrivalTime: '', arrivalMode: 'flight',
-    departureDate: '', departureTime: '', departureMode: 'flight',
-    flightTrainNumber: '', accommodationRequired: true,
-    accommodationPreference: 'campus', roomSharing: false,
-    dietaryPreference: 'vegetarian', specialRequirements: '',
+    arrivalDate: '2025-11-14', arrivalTime: '14:00', arrivalMode: 'flight',
+    departureDate: '2025-11-16', departureTime: '15:00', departureMode: 'flight',
+    flightTrainNumber: '', accommodationRequired: false, accommodationPreference: 'campus',
+    roomSharing: false, dietaryPreference: 'vegetarian', specialRequirements: '',
   });
-  const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/profile').then(r => r.json()),
       fetch('/api/travel').then(r => r.json()),
-    ]).then(([u, t]) => {
-      setUser(u);
-      if (t) setForm((p: any) => ({ ...p, ...t }));
+      fetch('/api/profile').then(r => r.json()),
+    ]).then(([travel, profile]) => {
+      if (travel && !travel.error) setForm((p: any) => ({ ...p, ...travel }));
+      if (profile && !profile.error) setUser(profile);
       setLoading(false);
     });
   }, []);
 
-  const set = (k: string, v: any) => setForm(p => ({ ...p, [k]: v }));
-
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    await fetch('/api/travel', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
-    });
+    await fetch('/api/travel', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) });
     setSaved(true);
     setSaving(false);
     setTimeout(() => setSaved(false), 3000);
   };
 
-  const ModeBtn = ({ mode, current, onChange, icon: Icon, label }: any) => (
-    <button type="button" onClick={() => onChange(mode)}
-      className={`flex items-center gap-2 px-4 py-2.5 rounded-lg border-2 text-sm font-medium transition-all ${current === mode ? 'border-navy text-navy bg-navy/5' : 'border-gray-200 text-gray-500 hover:border-gray-300'}`}
-      style={current === mode ? { borderColor: '#003366', color: '#003366', background: 'rgba(0,51,102,0.05)' } : {}}>
-      <Icon size={15} />
-      {label}
-    </button>
+  const field = (label: string, el: React.ReactNode) => (
+    <div>
+      <label className="block text-sm font-medium mb-1.5" style={{ color: '#003366' }}>{label}</label>
+      {el}
+    </div>
   );
 
-  if (loading) return <><Navbar user={null} /><div className="pt-32 text-center text-gray-500">Loading…</div></>;
+  const sel = (key: string, opts: [string, string][]) => (
+    <select className="iimc-input" value={(form as any)[key]} onChange={e => setForm((p: any) => ({ ...p, [key]: e.target.value }))}>
+      {opts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
+    </select>
+  );
 
   return (
     <>
-      <Navbar user={{ username: user?.username, fullName: user?.fullName, isAdmin: !!user?.isAdmin }} />
-      <main className="pt-20 pb-12 px-4 max-w-3xl mx-auto">
-        <div className="mt-6 mb-8">
-          <h1 className="font-display text-2xl font-bold mb-1" style={{ color: '#003366' }}>Travel & Accommodation</h1>
-          <p className="text-gray-500 text-sm">Help us plan logistics by sharing your travel details for the Silver Jubilee.</p>
+      <Navbar user={user ? { username: user.username, fullName: user.fullName, isAdmin: user.isAdmin } : null} />
+
+      {/* Hero */}
+      <div className="relative pt-16" style={{ height: 220 }}>
+        <img src={IMGS.howrah} alt="Howrah Bridge" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(0,51,102,0.90), rgba(0,80,0,0.7))' }} />
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+          <Plane size={36} style={{ color: '#C8A951' }} className="mb-3" />
+          <h1 className="font-display text-4xl font-bold text-white mb-2">Travel & Accommodation</h1>
+          <p style={{ color: '#E8D5A3' }} className="font-crimson text-lg">Help us plan your journey to Joka</p>
+        </div>
+      </div>
+
+      <main className="max-w-5xl mx-auto px-4 py-10">
+
+        {/* Getting Here Info Cards */}
+        <div className="grid md:grid-cols-3 gap-4 mb-10">
+          {[
+            { img: IMGS.kolkataTaxi, icon: '🚕', title: 'From Airport', desc: 'NSCBI → Joka: ~35 km, ~1.5 hrs via Ola/Uber. Campus pickup on Nov 14 at 3 PM & 6 PM.' },
+            { img: IMGS.howrah, icon: '🚂', title: 'From Station', desc: 'Howrah Station → Joka: ~20 km, ~1 hr. Sealdah → Joka: ~22 km, ~1.15 hrs.' },
+            { img: IMGS.campus, icon: '🏫', title: 'Campus Address', desc: 'Diamond Harbour Road, Joka, Kolkata – 700 104. On the southern outskirts of the city.' },
+          ].map(({ img, icon, title, desc }) => (
+            <div key={title} className="iimc-card overflow-hidden">
+              <div className="relative" style={{ height: 100 }}>
+                <img src={img} alt={title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0" style={{ background: 'rgba(0,26,51,0.6)' }} />
+                <div className="absolute bottom-2 left-3 flex items-center gap-2">
+                  <span className="text-xl">{icon}</span>
+                  <span className="font-semibold text-white text-sm">{title}</span>
+                </div>
+              </div>
+              <div className="p-4">
+                <p className="text-xs text-gray-600 leading-relaxed">{desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {saved && (
-          <div className="mb-6 px-4 py-3 rounded-lg text-sm text-green-700 bg-green-50 border border-green-200 flex items-center gap-2">
-            <CheckCircle size={16} /> Travel details saved successfully!
-          </div>
-        )}
-
-        <form onSubmit={handleSave} className="space-y-6">
-          {/* Arrival */}
-          <div className="iimc-card p-6">
-            <h2 className="font-semibold text-lg mb-5 flex items-center gap-2" style={{ color: '#003366' }}>
-              <span className="text-xl">🛬</span> Arrival Details
-            </h2>
-            <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Mode of Travel</label>
-                <div className="flex flex-wrap gap-2">
-                  <ModeBtn mode="flight" current={form.arrivalMode} onChange={(v: string) => set('arrivalMode', v)} icon={Plane} label="Flight" />
-                  <ModeBtn mode="train" current={form.arrivalMode} onChange={(v: string) => set('arrivalMode', v)} icon={Train} label="Train" />
-                  <ModeBtn mode="car" current={form.arrivalMode} onChange={(v: string) => set('arrivalMode', v)} icon={Car} label="Car / Road" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1.5 text-gray-700">Arrival Date</label>
-                  <input className="iimc-input" type="date" min="2025-11-13" max="2025-11-15" value={form.arrivalDate} onChange={e => set('arrivalDate', e.target.value)} />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1.5 text-gray-700">Arrival Time</label>
-                  <input className="iimc-input" type="time" value={form.arrivalTime} onChange={e => set('arrivalTime', e.target.value)} />
-                </div>
-              </div>
-              {(form.arrivalMode === 'flight' || form.arrivalMode === 'train') && (
-                <div>
-                  <label className="block text-sm font-medium mb-1.5 text-gray-700">
-                    {form.arrivalMode === 'flight' ? 'Flight Number' : 'Train Number / Name'}
-                  </label>
-                  <input className="iimc-input" placeholder={form.arrivalMode === 'flight' ? 'e.g. AI 201' : 'e.g. 12313 Coromandel Express'} value={form.flightTrainNumber} onChange={e => set('flightTrainNumber', e.target.value)} />
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Departure */}
-          <div className="iimc-card p-6">
-            <h2 className="font-semibold text-lg mb-5 flex items-center gap-2" style={{ color: '#003366' }}>
-              <span className="text-xl">🛫</span> Departure Details
-            </h2>
-            <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Mode of Travel</label>
-                <div className="flex flex-wrap gap-2">
-                  <ModeBtn mode="flight" current={form.departureMode} onChange={(v: string) => set('departureMode', v)} icon={Plane} label="Flight" />
-                  <ModeBtn mode="train" current={form.departureMode} onChange={(v: string) => set('departureMode', v)} icon={Train} label="Train" />
-                  <ModeBtn mode="car" current={form.departureMode} onChange={(v: string) => set('departureMode', v)} icon={Car} label="Car / Road" />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1.5 text-gray-700">Departure Date</label>
-                  <input className="iimc-input" type="date" min="2025-11-15" max="2025-11-17" value={form.departureDate} onChange={e => set('departureDate', e.target.value)} />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1.5 text-gray-700">Departure Time</label>
-                  <input className="iimc-input" type="time" value={form.departureTime} onChange={e => set('departureTime', e.target.value)} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Accommodation */}
-          <div className="iimc-card p-6">
-            <h2 className="font-semibold text-lg mb-5 flex items-center gap-2" style={{ color: '#003366' }}>
-              <span className="text-xl">🏨</span> Accommodation
-            </h2>
-            <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Do you need accommodation?</label>
-                <div className="flex gap-3">
-                  {[true, false].map((val) => (
-                    <button key={String(val)} type="button" onClick={() => set('accommodationRequired', val)}
-                      className={`flex-1 py-2.5 rounded-lg border-2 text-sm font-medium transition-all`}
-                      style={form.accommodationRequired === val ? { borderColor: '#003366', color: '#003366', background: 'rgba(0,51,102,0.05)' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-                      {val ? 'Yes, arrange for me' : 'No, I\'ll manage'}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {form.accommodationRequired && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium mb-2 text-gray-700">Preference</label>
-                    <div className="flex gap-3">
-                      <button type="button" onClick={() => set('accommodationPreference', 'campus')}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg border-2 text-sm font-medium transition-all"
-                        style={form.accommodationPreference === 'campus' ? { borderColor: '#003366', color: '#003366', background: 'rgba(0,51,102,0.05)' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-                        <Home size={15} /> On-Campus Guest House
-                      </button>
-                      <button type="button" onClick={() => set('accommodationPreference', 'hotel')}
-                        className="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg border-2 text-sm font-medium transition-all"
-                        style={form.accommodationPreference === 'hotel' ? { borderColor: '#003366', color: '#003366', background: 'rgba(0,51,102,0.05)' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-                        <Hotel size={15} /> Hotel (with shuttle)
-                      </button>
-                    </div>
+        {loading ? (
+          <div className="text-center py-10 text-gray-400">Loading your travel details…</div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Arrival */}
+              <div className="iimc-card p-6">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(0,51,102,0.1)' }}>
+                    <Plane size={18} style={{ color: '#003366' }} />
                   </div>
-
-                  {form.accommodationPreference === 'campus' && (
-                    <div>
-                      <label className="block text-sm font-medium mb-2 text-gray-700">Room Sharing</label>
-                      <div className="flex gap-3">
-                        {[false, true].map((val) => (
-                          <button key={String(val)} type="button" onClick={() => set('roomSharing', val)}
-                            className="flex-1 py-2.5 rounded-lg border-2 text-sm font-medium transition-all"
-                            style={form.roomSharing === val ? { borderColor: '#003366', color: '#003366', background: 'rgba(0,51,102,0.05)' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-                            {val ? 'Happy to share' : 'Single room'}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-
-          {/* Dietary & Special */}
-          <div className="iimc-card p-6">
-            <h2 className="font-semibold text-lg mb-5 flex items-center gap-2" style={{ color: '#003366' }}>
-              <span className="text-xl">🍽️</span> Preferences
-            </h2>
-            <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium mb-2 text-gray-700">Dietary Preference</label>
-                <div className="flex flex-wrap gap-2">
-                  {['vegetarian', 'non-vegetarian', 'vegan', 'jain', 'no-preference'].map(d => (
-                    <button key={d} type="button" onClick={() => set('dietaryPreference', d)}
-                      className="px-4 py-2 rounded-lg border-2 text-sm capitalize font-medium transition-all"
-                      style={form.dietaryPreference === d ? { borderColor: '#003366', color: '#003366', background: 'rgba(0,51,102,0.05)' } : { borderColor: '#e5e7eb', color: '#6b7280' }}>
-                      {d.replace('-', ' ')}
-                    </button>
-                  ))}
+                  <h2 className="font-display text-lg font-bold" style={{ color: '#003366' }}>Arrival Details</h2>
+                </div>
+                <div className="space-y-4">
+                  {field('Arrival Date', <input type="date" className="iimc-input" value={form.arrivalDate} onChange={e => setForm(p => ({ ...p, arrivalDate: e.target.value }))} />)}
+                  {field('Arrival Time', <input type="time" className="iimc-input" value={form.arrivalTime} onChange={e => setForm(p => ({ ...p, arrivalTime: e.target.value }))} />)}
+                  {field('Mode of Travel', sel('arrivalMode', [['flight', '✈️ Flight'], ['train', '🚂 Train'], ['car', '🚗 Car/Road']]))}
+                  {field('Flight / Train Number (Optional)', <input className="iimc-input" placeholder="e.g. AI 870 or 12301" value={form.flightTrainNumber} onChange={e => setForm(p => ({ ...p, flightTrainNumber: e.target.value }))} />)}
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-1.5 text-gray-700">Special Requirements</label>
-                <textarea className="iimc-input resize-none" rows={3}
-                  placeholder="Wheelchair access, allergies, medical needs, or any other requirements…"
-                  value={form.specialRequirements}
-                  onChange={e => set('specialRequirements', e.target.value)} />
+
+              {/* Departure */}
+              <div className="iimc-card p-6">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(0,51,102,0.1)' }}>
+                    <Plane size={18} style={{ color: '#003366', transform: 'scaleX(-1)' }} />
+                  </div>
+                  <h2 className="font-display text-lg font-bold" style={{ color: '#003366' }}>Departure Details</h2>
+                </div>
+                <div className="space-y-4">
+                  {field('Departure Date', <input type="date" className="iimc-input" value={form.departureDate} onChange={e => setForm(p => ({ ...p, departureDate: e.target.value }))} />)}
+                  {field('Departure Time', <input type="time" className="iimc-input" value={form.departureTime} onChange={e => setForm(p => ({ ...p, departureTime: e.target.value }))} />)}
+                  {field('Mode of Travel', sel('departureMode', [['flight', '✈️ Flight'], ['train', '🚂 Train'], ['car', '🚗 Car/Road']]))}
+                  {field('Dietary Preference', sel('dietaryPreference', [['vegetarian', '🥗 Vegetarian'], ['non-vegetarian', '🍗 Non-Vegetarian'], ['vegan', '🌱 Vegan'], ['jain', '🙏 Jain']]))}
+                </div>
+              </div>
+
+              {/* Accommodation */}
+              <div className="iimc-card p-6 lg:col-span-2">
+                <div className="flex items-center gap-2 mb-5">
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: 'rgba(0,51,102,0.1)' }}>
+                    <Hotel size={18} style={{ color: '#003366' }} />
+                  </div>
+                  <h2 className="font-display text-lg font-bold" style={{ color: '#003366' }}>Accommodation</h2>
+                </div>
+
+                {/* Accommodation photo strip */}
+                <div className="grid grid-cols-3 gap-3 mb-5">
+                  {[
+                    { img: IMGS.campus, label: 'On-Campus MDC', detail: '₹3,500/night · Incl. breakfast' },
+                    { img: IMGS.victoria, label: 'Partner Hotels', detail: 'LaLiT, Swissotel, Novotel' },
+                    { img: IMGS.kolkataTaxi, label: 'Shuttle Service', detail: 'Hotels ↔ Campus, daily' },
+                  ].map(({ img, label, detail }) => (
+                    <div key={label} className="rounded-xl overflow-hidden border border-gray-100">
+                      <div className="relative" style={{ height: 80 }}>
+                        <img src={img} alt={label} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0" style={{ background: 'rgba(0,26,51,0.5)' }} />
+                        <p className="absolute bottom-1.5 left-2 text-white text-xs font-semibold">{label}</p>
+                      </div>
+                      <div className="p-2 text-xs text-gray-500 text-center">{detail}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-4">
+                  <label className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all"
+                    style={{ borderColor: form.accommodationRequired ? '#003366' : '#e5e7eb', background: form.accommodationRequired ? 'rgba(0,51,102,0.05)' : 'white' }}>
+                    <input type="checkbox" checked={form.accommodationRequired} onChange={e => setForm(p => ({ ...p, accommodationRequired: e.target.checked }))} className="w-4 h-4 accent-navy" />
+                    <div>
+                      <div className="font-medium text-sm" style={{ color: '#003366' }}>Need Accommodation</div>
+                      <div className="text-xs text-gray-500">Book a spot for Nov 14–16</div>
+                    </div>
+                  </label>
+                  {form.accommodationRequired && (
+                    <>
+                      {field('Preference', sel('accommodationPreference', [['campus', '🏫 On-Campus MDC'], ['hotel', '🏨 Partner Hotel'], ['self', '🏠 Self-arranged']]))}
+                      <label className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all"
+                        style={{ borderColor: form.roomSharing ? '#003366' : '#e5e7eb' }}>
+                        <input type="checkbox" checked={form.roomSharing} onChange={e => setForm(p => ({ ...p, roomSharing: e.target.checked }))} className="w-4 h-4 accent-navy" />
+                        <div>
+                          <div className="font-medium text-sm" style={{ color: '#003366' }}>Open to Sharing</div>
+                          <div className="text-xs text-gray-500">Reduce cost by sharing room</div>
+                        </div>
+                      </label>
+                    </>
+                  )}
+                </div>
+
+                <div className="mt-4">
+                  {field('Special Requirements / Notes', <textarea className="iimc-input" rows={2} placeholder="Accessibility needs, medical requirements, or anything else…" value={form.specialRequirements} onChange={e => setForm(p => ({ ...p, specialRequirements: e.target.value }))} />)}
+                </div>
               </div>
             </div>
-          </div>
 
-          <button type="submit" disabled={saving}
-            className="gold-btn w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2 disabled:opacity-60">
-            {saving ? <div className="w-4 h-4 border-2 border-navy/30 border-t-navy rounded-full animate-spin" /> : <Save size={18} />}
-            {saving ? 'Saving…' : 'Save Travel Details'}
-          </button>
-        </form>
-
-        {/* Info Box */}
-        <div className="mt-6 rounded-xl p-5 text-sm" style={{ background: 'rgba(0,51,102,0.05)', border: '1px solid rgba(0,51,102,0.1)' }}>
-          <h3 className="font-semibold mb-2" style={{ color: '#003366' }}>📍 Getting to IIMC Joka Campus</h3>
-          <ul className="space-y-1 text-gray-600 text-sm">
-            <li>• <strong>Airport (NSCBI):</strong> ~1.5 hours by taxi/cab</li>
-            <li>• <strong>Howrah Station:</strong> ~1 hour by taxi/cab</li>
-            <li>• <strong>Sealdah Station:</strong> ~1.5 hours by taxi/cab</li>
-            <li>• <strong>Address:</strong> Diamond Harbour Road, Joka, Kolkata 700104</li>
-            <li>• <strong>Campus pickup</strong> will be arranged for Nov 14 arrivals. Shuttle from partner hotels on all days.</li>
-          </ul>
-        </div>
+            <div className="flex items-center justify-between mt-8">
+              <p className="text-xs text-gray-400 flex items-center gap-1"><Clock size={11} /> Last saved automatically</p>
+              <button type="submit" disabled={saving}
+                className="gold-btn px-8 py-3 rounded-xl font-semibold flex items-center gap-2 disabled:opacity-60">
+                {saved ? <><CheckCircle size={18} /> Saved!</> : saving ? 'Saving…' : <><Save size={18} /> Save Travel Details</>}
+              </button>
+            </div>
+          </form>
+        )}
       </main>
     </>
   );

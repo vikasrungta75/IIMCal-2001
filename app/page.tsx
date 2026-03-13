@@ -15,6 +15,12 @@ const IMAGES = {
   howrahBridge: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
   victoriaMemorial: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg/1280px-Victoria_Memorial_%28Kolkata%29_in_Blue_Hour.jpg',
   kolkataStreet: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kolkata_yellow_taxi.jpg/1280px-Kolkata_yellow_taxi.jpg',
+  // Additional Kolkata landmarks
+  edenGardens: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Eden_Gardens_-_Test_Match_2.jpg/1280px-Eden_Gardens_-_Test_Match_2.jpg',
+  durgaPuja: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Durga_Puja_Kolkata_2012.jpg/1280px-Durga_Puja_Kolkata_2012.jpg',
+  scienceCity: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Science_City%2C_Kolkata.jpg/1280px-Science_City%2C_Kolkata.jpg',
+  kolkataGhat: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Prinsep_Ghat_Kolkata.jpg/1280px-Prinsep_Ghat_Kolkata.jpg',
+  streetFood: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Kolkata_yellow_taxi.jpg/1280px-Kolkata_yellow_taxi.jpg',
 };
 
 export default async function HomePage() {
@@ -159,6 +165,9 @@ export default async function HomePage() {
             { img: IMAGES.howrahBridge, title: 'Howrah Bridge', desc: 'The iconic cantilever bridge over the Hooghly — a symbol of Kolkata known worldwide.' },
             { img: IMAGES.victoriaMemorial, title: 'Victoria Memorial', desc: 'A stunning marble monument built in memory of Queen Victoria, now a premier museum.' },
             { img: IMAGES.kolkataStreet, title: 'The City\'s Soul', desc: 'Kolkata\'s iconic yellow taxis, roll shops, and warm adda culture make it one of a kind.' },
+            { img: IMAGES.edenGardens, title: 'Eden Gardens', desc: 'One of the world\'s most iconic cricket stadiums. Home to unforgettable matches and roaring crowds.' },
+            { img: IMAGES.durgaPuja, title: 'Durga Puja', desc: 'UNESCO Intangible Cultural Heritage — 10 days of spectacular pandals, music and celebration.' },
+            { img: IMAGES.kolkataGhat, title: 'Prinsep Ghat', desc: 'A serene riverside promenade along the Hooghly, perfect for evening walks and sunsets.' },
           ].map(({ img, title, desc }) => (
             <div key={title} className="rounded-2xl overflow-hidden shadow-lg group">
               <div className="relative overflow-hidden" style={{ height: 220 }}>
@@ -184,6 +193,48 @@ export default async function HomePage() {
               <p className="text-sm text-gray-600 leading-relaxed">{desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── ALUMNI VOICES VIDEO ── */}
+      <section className="py-20 px-4 max-w-6xl mx-auto">
+        <div className="text-center mb-12">
+          <div className="badge-gold inline-block mb-4">Class of 1999–2001</div>
+          <h2 className="font-display text-4xl font-bold mb-3" style={{ color: '#003366' }}>Alumni Voices</h2>
+          <p className="text-gray-500 font-crimson text-xl">Stories from the Joka family</p>
+          <div className="gold-divider w-24 mx-auto mt-4" />
+        </div>
+        <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9', position: 'relative' }}>
+            <iframe
+              src="https://www.youtube.com/embed/oOAmTBk-oJs?rel=0&modestbranding=1"
+              title="IIM Calcutta Alumni Stories"
+              className="w-full h-full"
+              style={{ border: 'none', minHeight: 260 }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div>
+            <h3 className="font-display text-3xl font-bold mb-4" style={{ color: '#003366' }}>
+              25 Years of Making a Difference
+            </h3>
+            <p className="font-crimson text-xl leading-relaxed mb-5" style={{ color: '#444' }}>
+              From the boardrooms of Mumbai to the corridors of global institutions — Batch 1999–2001 has left an indelible mark on every field they touched.
+            </p>
+            <div className="space-y-3">
+              {[
+                { icon: '🌍', text: 'Alumni in 40+ countries across 6 continents' },
+                { icon: '🏆', text: 'CEOs, MDs and founders across Fortune 500 companies' },
+                { icon: '🤝', text: '25 years of friendships, partnerships and brotherhood' },
+              ].map(({ icon, text }) => (
+                <div key={text} className="flex items-center gap-3 p-3 rounded-xl" style={{ background: '#f8f4ec' }}>
+                  <span className="text-2xl">{icon}</span>
+                  <span className="text-sm font-medium" style={{ color: '#003366' }}>{text}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

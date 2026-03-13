@@ -1,109 +1,109 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import { Pin, Calendar, Tag } from 'lucide-react';
+import { Pin, Calendar, Tag, Bell } from 'lucide-react';
 
-const CATEGORY_COLORS: Record<string, string> = {
-  important: 'badge-red',
-  event: 'badge-navy',
-  logistics: 'badge-gold',
-  general: 'badge-gold',
+const IMGS = {
+  campus: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/IIM_Calcutta_MDC.jpg/1280px-IIM_Calcutta_MDC.jpg',
+  howrah: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Howrah_Bridge_from_Boat.jpg/1280px-Howrah_Bridge_from_Boat.jpg',
 };
 
+const CATEGORIES = ['all', 'important', 'event', 'logistics', 'general'];
+
 export default function AnnouncementsPage() {
-  const [user, setUser] = useState<any>(null);
   const [announcements, setAnnouncements] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(null);
   const [filter, setFilter] = useState('all');
   const [loading, setLoading] = useState(true);
-  const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
     Promise.all([
-      fetch('/api/profile').then(r => r.json()),
       fetch('/api/announcements').then(r => r.json()),
-    ]).then(([u, a]) => {
-      setUser(u);
-      setAnnouncements(Array.isArray(a) ? a : []);
+      fetch('/api/profile').then(r => r.json()),
+    ]).then(([anns, profile]) => {
+      setAnnouncements(Array.isArray(anns) ? anns : []);
+      if (profile && !profile.error) setUser(profile);
       setLoading(false);
     });
   }, []);
 
   const filtered = filter === 'all' ? announcements : announcements.filter(a => a.category === filter);
 
-  if (loading) return <><Navbar user={null} /><div className="pt-32 text-center text-gray-500">Loading…</div></>;
+  const categoryColor: Record<string, string> = {
+    important: '#8B0000', event: '#003366', logistics: '#166534', general: '#5a5a5a',
+  };
 
   return (
     <>
-      <Navbar user={{ username: user?.username, fullName: user?.fullName, isAdmin: !!user?.isAdmin }} />
-      <main className="pt-20 pb-12 px-4 max-w-4xl mx-auto">
-        <div className="mt-6 mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="font-display text-2xl font-bold mb-1" style={{ color: '#003366' }}>Announcements</h1>
-            <p className="text-gray-500 text-sm">Stay updated with the latest news for Silver Jubilee</p>
-          </div>
-          {/* Filter */}
-          <div className="flex gap-2 flex-wrap">
-            {['all', 'important', 'event', 'logistics', 'general'].map(cat => (
-              <button key={cat} onClick={() => setFilter(cat)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all capitalize ${filter === cat ? 'border-navy text-white' : 'border-gray-200 text-gray-600 hover:border-gray-300'}`}
-                style={filter === cat ? { background: '#003366', borderColor: '#003366' } : {}}>
-                {cat}
-              </button>
-            ))}
-          </div>
+      <Navbar user={user ? { username: user.username, fullName: user.fullName, isAdmin: user.isAdmin } : null} />
+
+      {/* Hero Banner */}
+      <div className="relative pt-16" style={{ height: 220 }}>
+        <img src={IMGS.campus} alt="IIM Calcutta" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: 'center 30%' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(0,51,102,0.92), rgba(139,0,0,0.7))' }} />
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 pb-4">
+          <Bell size={32} style={{ color: '#C8A951' }} className="mb-3" />
+          <h1 className="font-display text-4xl font-bold text-white mb-2">Announcements</h1>
+          <p style={{ color: '#E8D5A3' }} className="font-crimson text-lg">Stay updated on all Silver Jubilee news & events</p>
+        </div>
+      </div>
+
+      <main className="max-w-4xl mx-auto px-4 py-10">
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {CATEGORIES.map(cat => (
+            <button key={cat} onClick={() => setFilter(cat)}
+              className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${filter === cat ? 'text-white border-transparent' : 'border-gray-300 text-gray-600 hover:border-gray-400'}`}
+              style={filter === cat ? { background: categoryColor[cat] || '#003366' } : {}}>
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </button>
+          ))}
         </div>
 
-        {/* Pinned */}
-        {filter === 'all' && filtered.some(a => a.pinned) && (
-          <div className="mb-2">
-            <div className="flex items-center gap-2 mb-3">
-              <Pin size={14} style={{ color: '#C8A951' }} />
-              <span className="text-xs font-semibold uppercase tracking-wider" style={{ color: '#8a6b1a' }}>Pinned</span>
-            </div>
+        {loading ? (
+          <div className="text-center py-16 text-gray-400">Loading announcements…</div>
+        ) : (
+          <div className="space-y-5">
+            {filtered.map((a) => (
+              <div key={a.id} className="iimc-card p-6 hover:shadow-lg transition-shadow">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <h2 className="font-display text-xl font-bold leading-snug" style={{ color: '#1a1a2e' }}>{a.title}</h2>
+                  {a.pinned && (
+                    <span className="flex items-center gap-1 badge-gold shrink-0">
+                      <Pin size={11} /> Pinned
+                    </span>
+                  )}
+                </div>
+                <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-sans mb-4">{a.content}</pre>
+                <div className="flex flex-wrap items-center gap-3 text-xs text-gray-500 pt-3 border-t border-gray-100">
+                  <span className="flex items-center gap-1"><Calendar size={12} />
+                    {new Date(a.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </span>
+                  <span className="flex items-center gap-1"><Tag size={12} />
+                    <span className="font-semibold" style={{ color: categoryColor[a.category] || '#5a5a5a' }}>
+                      {a.category}
+                    </span>
+                  </span>
+                  <span>By {a.author}</span>
+                </div>
+              </div>
+            ))}
+            {filtered.length === 0 && (
+              <div className="text-center py-16 text-gray-400">No announcements in this category yet.</div>
+            )}
           </div>
         )}
 
-        <div className="space-y-4">
-          {filtered.length === 0 && (
-            <div className="text-center py-16 text-gray-400">
-              <div className="text-4xl mb-3">📭</div>
-              <p>No announcements in this category</p>
+        {/* Kolkata strip at bottom */}
+        <div className="mt-12 rounded-2xl overflow-hidden relative" style={{ height: 160 }}>
+          <img src={IMGS.howrah} alt="Howrah Bridge Kolkata" className="w-full h-full object-cover" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,51,102,0.85), rgba(0,26,51,0.5))' }} />
+          <div className="absolute inset-0 flex items-center px-8">
+            <div>
+              <p className="font-display text-2xl font-bold text-white mb-1">See you in Kolkata!</p>
+              <p style={{ color: '#C8A951' }} className="font-crimson text-lg">November 14–16, 2025 · Joka Campus</p>
             </div>
-          )}
-          {filtered.map((a) => (
-            <div key={a.id} className={`iimc-card overflow-hidden ${a.pinned ? 'border-l-4' : ''}`}
-              style={a.pinned ? { borderLeftColor: '#C8A951' } : {}}>
-              <div className="p-5 cursor-pointer" onClick={() => setExpanded(expanded === a.id ? null : a.id)}>
-                <div className="flex items-start justify-between gap-3 mb-2">
-                  <h3 className="font-semibold text-base leading-snug" style={{ color: '#1a1a2e' }}>{a.title}</h3>
-                  <div className="flex items-center gap-2 shrink-0">
-                    {a.pinned && <Pin size={14} style={{ color: '#C8A951' }} />}
-                    <span className={CATEGORY_COLORS[a.category] || 'badge-gold'}>{a.category}</span>
-                  </div>
-                </div>
-
-                {expanded === a.id ? (
-                  <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line mt-3">
-                    {a.content}
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{a.content.split('\n')[0]}</p>
-                )}
-
-                <div className="flex items-center gap-3 mt-3 text-xs text-gray-400">
-                  <span className="flex items-center gap-1">
-                    <Calendar size={11} />
-                    {new Date(a.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </span>
-                  <span>·</span>
-                  <span>{a.author}</span>
-                  <span className="ml-auto" style={{ color: '#003366' }}>
-                    {expanded === a.id ? '▲ Less' : '▼ Read more'}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ))}
+          </div>
         </div>
       </main>
     </>
