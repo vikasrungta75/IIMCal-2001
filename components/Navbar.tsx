@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import { Menu, X, LogOut, User, Bell, Plane, LayoutDashboard, Home, Users } from 'lucide-react';
 
 interface NavUser {
@@ -23,9 +24,10 @@ export default function Navbar({ user }: { user?: NavUser | null }) {
   }, []);
 
   const logout = async () => {
-    await fetch('/api/auth/logout', { method: 'POST' });
-    router.push('/');
-    router.refresh();
+    // Clear legacy cookie
+    await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
+    // Sign out of NextAuth and redirect home
+    await signOut({ callbackUrl: '/' });
   };
 
   const navLinks = user ? [
@@ -47,9 +49,7 @@ export default function Navbar({ user }: { user?: NavUser | null }) {
               src="https://www.iimcal.ac.in/sites/default/files/white-logo.png"
               alt="IIM Calcutta"
               className="h-9 w-auto object-contain"
-              onError={(e) => {
-                (e.target as HTMLImageElement).style.display = 'none';
-              }}
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
             <div className="hidden sm:block">
               <div className="text-white font-display font-bold text-base leading-tight">IIM Calcutta</div>
