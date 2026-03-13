@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import SafeImage from '@/components/SafeImage';
 import { Eye, EyeOff, LogIn } from 'lucide-react';
 
 export default function LoginPage() {
@@ -64,9 +65,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <Link href="/">
-              <img src="https://www.iimcal.ac.in/sites/default/files/white-logo.png" alt="IIM Calcutta"
-                className="h-14 mx-auto mb-4 object-contain"
-                onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              <SafeImage src="https://www.iimcal.ac.in/sites/default/files/white-logo.png" alt="IIM Calcutta" className="h-14 mx-auto mb-4 object-contain" />
             </Link>
             <h1 className="font-display text-3xl font-bold text-white mb-1">Welcome Back</h1>
             <p style={{ color: '#C8A951' }} className="text-sm">Silver Jubilee Alumni Portal</p>

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import SafeImage from '@/components/SafeImage';
 import { Eye, EyeOff, UserPlus, Check } from 'lucide-react';
 
 const BATCHES = Array.from({ length: 10 }, (_, i) => `${1997 + i}`);
@@ -75,8 +76,7 @@ export default function RegisterPage() {
         <div className="w-full max-w-lg">
           <div className="text-center mb-8">
             <Link href="/">
-              <img src="https://www.iimcal.ac.in/sites/default/files/white-logo.png" alt="IIMC" className="h-14 mx-auto mb-4 object-contain"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+              <SafeImage src="https://www.iimcal.ac.in/sites/default/files/white-logo.png" alt="IIM Calcutta" className="h-14 mx-auto mb-6 object-contain" />
             </Link>
             <h1 className="font-display text-3xl font-bold text-white mb-1">Join the Reunion</h1>
             <p style={{ color: '#C8A951' }} className="text-sm">Silver Jubilee Alumni Portal Registration</p>

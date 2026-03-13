@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Countdown from '@/components/Countdown';
+import SafeImage from '@/components/SafeImage';
 
 // Free-use image URLs from Wikimedia Commons and official IIMC sources
 const IMAGES = {
@@ -41,8 +42,7 @@ export default async function HomePage() {
 
         <div className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-20">
           <div className="flex justify-center mb-8">
-            <img src={IMAGES.logoWhite} alt="IIM Calcutta" className="h-20 w-auto object-contain"
-              onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            <SafeImage src={IMAGES.logoWhite} alt="IIM Calcutta" className="h-20 w-auto object-contain" />
           </div>
 
           <div className="inline-flex items-center gap-3 mb-6 px-6 py-2.5 rounded-full border"
@@ -219,8 +219,7 @@ export default async function HomePage() {
       {/* ── CTA ── */}
       <section className="py-20 px-4 text-center" style={{ background: 'linear-gradient(135deg,#f5f0e8,#ede7d8)' }}>
         <div className="max-w-2xl mx-auto">
-          <img src={IMAGES.logo} alt="IIMC" className="h-16 mx-auto mb-6 object-contain"
-            onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <SafeImage src={IMAGES.logo} alt="IIMC" className="h-16 mx-auto mb-6 object-contain" />
           <h2 className="font-display text-4xl font-bold mb-4" style={{ color: '#003366' }}>Ready to Reunite?</h2>
           <p className="text-gray-600 text-lg mb-8 font-crimson">
             Register now to secure your spot. Sign in with your Google or Microsoft account — no new password needed.
@@ -240,8 +239,7 @@ export default async function HomePage() {
       {/* ── FOOTER ── */}
       <footer className="py-10 px-4 text-center" style={{ background: '#001a33', color: '#8899aa' }}>
         <div className="max-w-4xl mx-auto">
-          <img src={IMAGES.logoWhite} alt="IIMC" className="h-10 mx-auto mb-4 opacity-60 object-contain"
-            onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          <SafeImage src={IMAGES.logoWhite} alt="IIMC" className="h-10 mx-auto mb-4 opacity-60 object-contain" />
           <p className="text-sm mb-2">IIM Calcutta Silver Jubilee Alumni Meet 2025</p>
           <p className="text-xs">Diamond Harbour Road, Joka, Kolkata – 700 104 &nbsp;|&nbsp;
             <a href="https://www.iimcal.ac.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">www.iimcal.ac.in</a>
