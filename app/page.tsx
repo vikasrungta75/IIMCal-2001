@@ -34,11 +34,21 @@ export default async function HomePage() {
       {/* ── HERO ── */}
       <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
         style={{ background: 'linear-gradient(160deg,#003366 0%,#001a33 45%,#0a1628 100%)' }}>
-        {/* Background campus image */}
+        {/* Background campus video */}
         <div className="absolute inset-0">
-          <img src={IMAGES.campusMain} alt="IIM Calcutta Campus"
-            className="w-full h-full object-cover opacity-15" />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg,rgba(0,51,102,0.92) 0%,rgba(0,26,51,0.88) 100%)' }} />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+            style={{ opacity: 0.35 }}
+          >
+            <source src="/images/campus.webm" type="video/webm" />
+            {/* Fallback to static image if video not supported */}
+            <img src={IMAGES.campusMain} alt="IIM Calcutta Campus" className="w-full h-full object-cover" />
+          </video>
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg,rgba(0,51,102,0.85) 0%,rgba(0,26,51,0.80) 100%)' }} />
         </div>
         {/* Dot grid pattern */}
         <div className="absolute inset-0 pointer-events-none" style={{
