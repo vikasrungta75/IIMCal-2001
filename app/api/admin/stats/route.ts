@@ -8,10 +8,12 @@ export async function GET() {
 
   return NextResponse.json({
     totalAlumni: db.users.count(),
+    pendingCount: db.users.countPending(),
     travelCount: db.travel.count(),
     accommodationCount: db.travel.countWithAccommodation(),
     announcementCount: db.announcements.count(),
-    alumni: db.users.getAll(),
+    alumni: db.users.getAllApproved(),
+    pendingRegistrations: db.users.getPending(),
     travel: db.travel.getAll(),
   });
 }

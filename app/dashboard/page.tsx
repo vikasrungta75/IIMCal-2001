@@ -17,8 +17,17 @@ export default async function DashboardPage() {
   const session = await getSession();
   if (!session) redirect('/login');
 
+  // Admin goes to admin panel, not dashboard
+  if (session.isAdmin) redirect('/admin');
+
   const user = db.users.findByUsername(session.username);
   if (!user) redirect('/login');
+
+  // Check approval status
+  if (!user.profileSubmitted) redirect('/complete-profile');
+  if (user.status === 'pending') redirect('/pending');
+  if (user.status === 'rejected') redirect('/login?error=rejected');
+  if (user.status !== 'approved') redirect('/pending');
 
   const travel = db.travel.get(user.id);
   const announcements = db.announcements.getAll().slice(0, 3);

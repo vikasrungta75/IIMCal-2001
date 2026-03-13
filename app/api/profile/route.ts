@@ -19,9 +19,14 @@ export async function PUT(req: NextRequest) {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json();
+  // Strip fields that shouldn't be user-editable
   delete body.password;
   delete body.username;
   delete body.isAdmin;
+  delete body.approvedAt;
+  delete body.approvedBy;
+  // Only allow status change to 'pending' (submission), not 'approved'
+  if (body.status && body.status !== 'pending') delete body.status;
 
   let user = session.username ? db.users.findByUsername(session.username) : null;
   if (!user && session.email) user = db.users.findByEmail(session.email);

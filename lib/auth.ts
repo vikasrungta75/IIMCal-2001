@@ -4,7 +4,7 @@ import { SignJWT, jwtVerify } from 'jose';
 import { cookies } from 'next/headers';
 
 const SECRET = new TextEncoder().encode(
-  process.env.NEXTAUTH_SECRET || process.env.JWT_SECRET || 'iimc-jubilee-secret'
+  process.env.NEXTAUTH_SECRET || 'iimc-jubilee-secret'
 );
 
 export async function createToken(payload: { userId: string; username: string; isAdmin?: boolean }) {
@@ -23,19 +23,23 @@ export async function verifyToken(token: string) {
 }
 
 export async function getSession() {
-  // 1. Try NextAuth session
   try {
     const s = await getServerSession(authOptions);
     if (s?.user) {
       let username = (s.user as any).username || '';
       let userId = (s.user as any).userId || '';
-      // For OAuth users, username may not be in token — look up by email
+      let status = (s.user as any).status;
+      let profileSubmitted = (s.user as any).profileSubmitted;
+
+      // For OAuth users, look up by email if username not in token yet
       if (!username && s.user.email) {
         const { db } = await import('@/lib/db');
         const dbUser = db.users.findByEmail(s.user.email);
         if (dbUser) {
           username = dbUser.username;
           userId = dbUser.id;
+          status = dbUser.status;
+          profileSubmitted = dbUser.profileSubmitted;
         }
       }
       if (username) {
@@ -43,20 +47,13 @@ export async function getSession() {
           userId,
           username,
           isAdmin: (s.user as any).isAdmin || false,
+          status: status || 'pending',
+          profileSubmitted: profileSubmitted || false,
           name: s.user.name || '',
           email: s.user.email || '',
           image: s.user.image || '',
         };
       }
-    }
-  } catch {}
-  // 2. Fallback: legacy cookie
-  try {
-    const cookieStore = cookies();
-    const token = cookieStore.get('auth-token')?.value;
-    if (token) {
-      const p = await verifyToken(token);
-      if (p) return { ...p, name: '', email: '', image: '' };
     }
   } catch {}
   return null;
