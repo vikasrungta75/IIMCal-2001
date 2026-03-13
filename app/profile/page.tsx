@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar';
 import { Save, User, Briefcase, MapPin, Phone, Link2, FileText, CheckCircle } from 'lucide-react';
 
 const IMGS = {
-  campus: '/images/campus.svg',
-  kolkata: '/images/taxi.svg',
+  campus: '/images/campus.jpg',
+  kolkata: '/images/taxi.jpg',
 };
 
 export default function ProfilePage() {

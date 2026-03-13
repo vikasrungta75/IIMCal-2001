@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar';
 import { Search, MapPin, Building, Linkedin, Users } from 'lucide-react';
 
 const IMGS = {
-  campus: '/images/campus.svg',
-  kolkata: '/images/victoria.svg',
+  campus: '/images/campus.jpg',
+  kolkata: '/images/victoria.jpg',
 };
 
 export default function AlumniPage() {

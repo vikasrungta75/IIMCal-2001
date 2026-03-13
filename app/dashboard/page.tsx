@@ -7,10 +7,10 @@ import { User, Plane, Bell, Users, Calendar, MapPin, Award, Clock } from 'lucide
 
 // Free-use Wikimedia Commons images
 const IMGS = {
-  campusAerial: '/images/campus.svg',
-  kolkataGhat: '/images/howrah.svg',
-  victoria: '/images/victoria.svg',
-  howrah: '/images/howrah.svg',
+  campusAerial: '/images/campus.jpg',
+  kolkataGhat: '/images/howrah.jpg',
+  victoria: '/images/victoria.jpg',
+  howrah: '/images/howrah.jpg',
 };
 
 export default async function DashboardPage() {

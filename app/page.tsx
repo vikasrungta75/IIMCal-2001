@@ -7,20 +7,20 @@ import SafeImage from '@/components/SafeImage';
 
 // Free-use image URLs from Wikimedia Commons and official IIMC sources
 const IMAGES = {
-  campusMain: '/images/campus.svg',
-  auditorium: '/images/campus.svg',
+  campusMain: '/images/campus.jpg',
+  auditorium: '/images/campus.jpg',
   logo: '/images/logo.svg',
   logoWhite: '/images/logo-white.svg',
   // Kolkata landmarks - Wikimedia Commons free use
-  howrahBridge: '/images/howrah.svg',
-  victoriaMemorial: '/images/victoria.svg',
-  kolkataStreet: '/images/taxi.svg',
+  howrahBridge: '/images/howrah.jpg',
+  victoriaMemorial: '/images/victoria.jpg',
+  kolkataStreet: '/images/taxi.jpg',
   // Additional Kolkata landmarks
-  edenGardens: '/images/eden.svg',
-  durgaPuja: '/images/durgapuja.svg',
+  edenGardens: '/images/eden.jpg',
+  durgaPuja: '/images/durga.jpg',
   scienceCity: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Science_City%2C_Kolkata.jpg/1280px-Science_City%2C_Kolkata.jpg',
-  kolkataGhat: '/images/prinsep.svg',
-  streetFood: '/images/taxi.svg',
+  kolkataGhat: '/images/prinsep.jpg',
+  streetFood: '/images/taxi.jpg',
 };
 
 export default async function HomePage() {

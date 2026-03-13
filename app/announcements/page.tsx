@@ -4,8 +4,8 @@ import Navbar from '@/components/Navbar';
 import { Pin, Calendar, Tag, Bell } from 'lucide-react';
 
 const IMGS = {
-  campus: '/images/campus.svg',
-  howrah: '/images/howrah.svg',
+  campus: '/images/campus.jpg',
+  howrah: '/images/howrah.jpg',
 };
 
 const CATEGORIES = ['all', 'important', 'event', 'logistics', 'general'];

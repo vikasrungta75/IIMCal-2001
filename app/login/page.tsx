@@ -41,7 +41,7 @@ export default function LoginPage() {
       {/* Left: campus image panel (hidden on mobile) */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden flex-col justify-end p-12">
         <img
-          src="/images/campus.svg"
+          src="/images/campus.jpg"
           alt="IIM Calcutta Campus"
           className="absolute inset-0 w-full h-full object-cover opacity-30"
         />
