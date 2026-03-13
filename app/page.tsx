@@ -141,7 +141,7 @@ export default async function HomePage() {
           {/* YouTube embed of IIM Calcutta campus tour - official IIM C video */}
           <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9', position: 'relative' }}>
             <iframe
-              src="https://www.youtube.com/embed/n7o3sDQ7B9g?rel=0&modestbranding=1"
+              src="https://www.youtube.com/embed/GpEgQslgHoo?rel=0&modestbranding=1"
               title="IIM Calcutta Campus Tour"
               className="w-full h-full"
               style={{ border: 'none', minHeight: 360 }}
@@ -207,7 +207,7 @@ export default async function HomePage() {
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ aspectRatio: '16/9', position: 'relative' }}>
             <iframe
-              src="https://www.youtube.com/embed/oOAmTBk-oJs?rel=0&modestbranding=1"
+              src="https://www.youtube.com/embed/1tzHtrdXFe4?rel=0&modestbranding=1"
               title="IIM Calcutta Alumni Stories"
               className="w-full h-full"
               style={{ border: 'none', minHeight: 260 }}
