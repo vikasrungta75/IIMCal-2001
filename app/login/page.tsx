@@ -18,15 +18,15 @@ export default function LoginPage() {
     setLoading('credentials');
     setError('');
     const result = await signIn('credentials', {
-      username: form.username,
+      username: form.username.trim(),
       password: form.password,
       redirect: false,
     });
-    if (result?.ok) {
+    if (result?.ok && !result?.error) {
       router.push('/admin');
       router.refresh();
     } else {
-      setError('Invalid admin credentials');
+      setError('Invalid admin credentials. Check username and password.');
     }
     setLoading(null);
   };

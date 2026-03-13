@@ -69,13 +69,13 @@ function seed() {
   seeded = true;
 
   // ── ADMIN ACCOUNT ──
-  // Username: iimc_admin_2025
-  // Password: IIMCAdmin@2025#Joka
-  const ADMIN_HASH = '$2a$12$A.RUH0GKGgmYz8Cqgn7hhebJgHQI1qis03c43Pu4RMwi2S2eDyf9y';
+  // Username: iimcadmin2025
+  // Password: Joka@Admin2025
+  const ADMIN_HASH = '$2a$10$2O5OMgJao691f2wynEamKu4uy38gTrjH6zgTMIkgVv9Zq2D4QShq.';
 
-  users.set('iimc_admin_2025', {
+  users.set('iimcadmin2025', {
     id: 'admin-001',
-    username: 'iimc_admin_2025',
+    username: 'iimcadmin2025',
     password: ADMIN_HASH,
     email: 'admin@iimcal.ac.in',
     fullName: 'Event Administrator',
