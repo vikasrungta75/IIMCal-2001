@@ -31,10 +31,10 @@ export async function getSession() {
       let status = (s.user as any).status;
       let profileSubmitted = (s.user as any).profileSubmitted;
 
-      // For OAuth users, look up by email if username not in token yet
-      if (!username && s.user.email) {
+      // Always look up from DB for OAuth users to get fresh status
+      if (s.user.email) {
         const { db } = await import('@/lib/db');
-        const dbUser = db.users.findByEmail(s.user.email);
+        const dbUser = await db.users.findByEmail(s.user.email);
         if (dbUser) {
           username = dbUser.username;
           userId = dbUser.id;
@@ -42,6 +42,7 @@ export async function getSession() {
           profileSubmitted = dbUser.profileSubmitted;
         }
       }
+
       if (username) {
         return {
           userId,

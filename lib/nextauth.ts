@@ -17,7 +17,6 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.AZURE_AD_CLIENT_SECRET || '',
       tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
     }),
-    // Admin only — username/password
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -26,19 +25,11 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
-        const user = db.users.findByUsername(credentials.username);
-        // Only allow admin via credentials
+        const user = await db.users.findByUsername(credentials.username);
         if (!user || !user.isAdmin || !user.password) return null;
         const valid = await bcrypt.compare(credentials.password, user.password);
         if (!valid) return null;
-        return {
-          id: user.id,
-          name: user.fullName,
-          email: user.email,
-          image: null,
-          username: user.username,
-          isAdmin: true,
-        } as any;
+        return { id: user.id, name: user.fullName, email: user.email, image: null, username: user.username, isAdmin: true } as any;
       },
     }),
   ],
@@ -46,26 +37,19 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account }: any) {
       if (account?.provider === 'google' || account?.provider === 'azure-ad') {
-        const existing = db.users.findByEmail(user.email);
+        const existing = await db.users.findByEmail(user.email);
         if (!existing) {
-          // New OAuth user — create with pending status, needs profile completion
           const base = (user.email as string).split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase();
           const username = base + Math.floor(Math.random() * 900 + 100);
-          db.users.create({
-            id: uuidv4(),
-            username,
-            password: '',
-            email: user.email,
-            fullName: user.name || username,
-            batch: '',
-            programme: '',
+          await db.users.create({
+            id: uuidv4(), username, password: '',
+            email: user.email, fullName: user.name || username,
+            batch: '', programme: '',
             createdAt: new Date().toISOString(),
-            status: 'pending',
-            profileSubmitted: false,
+            status: 'pending', profileSubmitted: false,
             oauthProvider: account.provider,
           });
         }
-        // Allow sign in regardless — we check status in the session/pages
         return true;
       }
       return true;
@@ -78,7 +62,7 @@ export const authOptions: NextAuthOptions = {
         token.userId = user.id;
       }
       if (account?.provider === 'google' || account?.provider === 'azure-ad') {
-        const dbUser = db.users.findByEmail(token.email as string);
+        const dbUser = await db.users.findByEmail(token.email as string);
         if (dbUser) {
           token.username = dbUser.username;
           token.userId = dbUser.id;

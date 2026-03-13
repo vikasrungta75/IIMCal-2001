@@ -25,10 +25,10 @@ const IMAGES = {
 
 export default async function HomePage() {
   const session = await getSession();
-  // Only redirect approved users - pending/unapproved users can still view homepage
+  // Only redirect approved users - pending/unapproved can still view homepage
   if (session?.username && !session.isAdmin) {
     const { db } = await import('@/lib/db');
-    const user = db.users.findByUsername(session.username);
+    const user = await db.users.findByUsername(session.username);
     if (user?.status === 'approved') redirect('/dashboard');
   }
   if (session?.isAdmin) redirect('/admin');
