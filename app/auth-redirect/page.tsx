@@ -1,21 +1,16 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
+/**
+ * After OAuth login, route based on DB status (always source of truth)
+ */
 export default function AuthRedirectPage() {
   const router = useRouter();
-  const { data: session, status, update } = useSession();
-  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
-    if (status === 'loading') return;
-    if (status === 'unauthenticated') { router.replace('/login'); return; }
-    if (checking) return;
-    setChecking(true);
-
-    // Force refresh session then check DB directly via API
-    update().then(() => {
+    // Small delay to ensure session cookie is set
+    setTimeout(() => {
       fetch('/api/profile')
         .then(r => r.json())
         .then(profile => {
@@ -23,13 +18,12 @@ export default function AuthRedirectPage() {
           if (profile.isAdmin) { router.replace('/admin'); return; }
           if (profile.status === 'rejected') { router.replace('/login?error=rejected'); return; }
           if (!profile.profileSubmitted) { router.replace('/complete-profile'); return; }
-          if (profile.status === 'pending') { router.replace('/pending'); return; }
           if (profile.status === 'approved') { router.replace('/dashboard'); return; }
-          router.replace('/complete-profile');
+          router.replace('/pending');
         })
         .catch(() => router.replace('/login'));
-    });
-  }, [status]);
+    }, 800);
+  }, []);
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: '#003366' }}>

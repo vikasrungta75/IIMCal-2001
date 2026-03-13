@@ -85,6 +85,7 @@ export default function ProfilePage() {
               </div>
               <div className="grid md:grid-cols-2 gap-4">
                 {field('Full Name', 'fullName', { placeholder: 'Your full name' })}
+                {field('Email Address', 'email', { type: 'email', placeholder: 'your@email.com' })}
                 {field('Phone Number', 'phone', { type: 'tel', placeholder: '+91 98765 43210' })}
                 <div>
                   <label className="block text-sm font-medium mb-1.5" style={{ color: '#003366' }}>Batch Year</label>
