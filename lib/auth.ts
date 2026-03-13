@@ -27,14 +27,27 @@ export async function getSession() {
   try {
     const s = await getServerSession(authOptions);
     if (s?.user) {
-      return {
-        userId: (s.user as any).userId || '',
-        username: (s.user as any).username || '',
-        isAdmin: (s.user as any).isAdmin || false,
-        name: s.user.name || '',
-        email: s.user.email || '',
-        image: s.user.image || '',
-      };
+      let username = (s.user as any).username || '';
+      let userId = (s.user as any).userId || '';
+      // For OAuth users, username may not be in token — look up by email
+      if (!username && s.user.email) {
+        const { db } = await import('@/lib/db');
+        const dbUser = db.users.findByEmail(s.user.email);
+        if (dbUser) {
+          username = dbUser.username;
+          userId = dbUser.id;
+        }
+      }
+      if (username) {
+        return {
+          userId,
+          username,
+          isAdmin: (s.user as any).isAdmin || false,
+          name: s.user.name || '',
+          email: s.user.email || '',
+          image: s.user.image || '',
+        };
+      }
     }
   } catch {}
   // 2. Fallback: legacy cookie

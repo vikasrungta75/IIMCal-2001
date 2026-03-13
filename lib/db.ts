@@ -59,8 +59,8 @@ function seed() {
   if (seeded) return;
   seeded = true;
 
-  const ADMIN_HASH = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'; // admin123
-  const DEMO_HASH  = '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy'; // same for demo
+  const ADMIN_HASH = '$2a$10$5pn2Y.47D9qXKPZ6OdIaAupYnPDj5cF9ydagaWMuBT7UEmkAO69d6'; // admin123
+  const DEMO_HASH  = '$2a$10$5pn2Y.47D9qXKPZ6OdIaAupYnPDj5cF9ydagaWMuBT7UEmkAO69d6'; // admin123
 
   users.set('admin', {
     id: 'admin-001', username: 'admin', password: ADMIN_HASH,
