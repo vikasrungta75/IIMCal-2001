@@ -85,14 +85,14 @@ export default function CompleteProfilePage() {
                 <label className="block text-sm font-medium mb-1.5" style={{ color: '#003366' }}>Batch Year *</label>
                 <select className="iimc-input" value={form.batch} onChange={e => setForm(p => ({ ...p, batch: e.target.value }))} required>
                   <option value="">Select batch</option>
-                  {['1999','2000','2001'].map(y => <option key={y} value={y}>{y}</option>)}
+                  {[['2001','PGDM Batch 2001'],['1999','PGDM Batch 1999'],['2000','PGDM Batch 2000']].map(([y,l]) => <option key={y} value={y}>{y}</option>)}
                 </select>
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1.5" style={{ color: '#003366' }}>Programme *</label>
                 <select className="iimc-input" value={form.programme} onChange={e => setForm(p => ({ ...p, programme: e.target.value }))} required>
                   <option value="">Select programme</option>
-                  {['MBA','MBAEx','FPM','PGDBA','PGPEX-VLM'].map(p => <option key={p} value={p}>{p}</option>)}
+                  {['PGDM','PGDCM'].map(p => <option key={p} value={p}>{p}</option>)}
                 </select>
               </div>
             </div>

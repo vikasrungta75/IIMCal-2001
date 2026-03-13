@@ -142,7 +142,7 @@ export default function LoginPage() {
             )}
           </div>
           <p className="text-center mt-5 text-blue-300 text-xs">
-            <Link href="/" className="hover:text-white transition-colors">← Back to home</Link>
+            <button onClick={() => window.location.href = "/"} className="hover:text-white transition-colors text-blue-300 text-xs">← Back to home</button>
           </p>
         </div>
       </div>

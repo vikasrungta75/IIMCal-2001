@@ -25,14 +25,20 @@ const IMAGES = {
 
 export default async function HomePage() {
   const session = await getSession();
-  if (session?.username) redirect('/dashboard');
+  // Only redirect approved users - pending/unapproved users can still view homepage
+  if (session?.username && !session.isAdmin) {
+    const { db } = await import('@/lib/db');
+    const user = db.users.findByUsername(session.username);
+    if (user?.status === 'approved') redirect('/dashboard');
+  }
+  if (session?.isAdmin) redirect('/admin');
 
   return (
     <>
       <Navbar user={null} />
 
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      <section className="relative min-h-screen flex flex-col items-center justify-center"
         style={{ background: 'linear-gradient(160deg,#003366 0%,#001a33 45%,#0a1628 100%)' }}>
         {/* Background campus video */}
         <div className="absolute inset-0">
@@ -42,13 +48,13 @@ export default async function HomePage() {
             loop
             playsInline
             className="w-full h-full object-cover"
-            style={{ opacity: 0.35 }}
+            style={{ opacity: 0.55 }}
           >
             <source src="/images/campus.webm" type="video/webm" />
             {/* Fallback to static image if video not supported */}
             <img src={IMAGES.campusMain} alt="IIM Calcutta Campus" className="w-full h-full object-cover" />
           </video>
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg,rgba(0,51,102,0.85) 0%,rgba(0,26,51,0.80) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg,rgba(0,51,102,0.70) 0%,rgba(0,26,51,0.65) 100%)' }} />
         </div>
         {/* Dot grid pattern */}
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -77,10 +83,10 @@ export default async function HomePage() {
             Celebrating 25 Glorious Years — Batch 1999–2001
           </p>
           <p className="text-blue-200 text-base md:text-lg mb-10">
-            November 14–16, 2025 &nbsp;|&nbsp; Joka Campus, Kolkata
+            December 12–14, 2027 &nbsp;|&nbsp; Joka Campus, Kolkata
           </p>
 
-          <Countdown targetDate="2025-11-14T09:00:00+05:30" />
+          <Countdown targetDate="2027-12-12T09:00:00+05:30" />
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
             <Link href="/register" className="gold-btn px-9 py-4 rounded-xl text-base font-semibold inline-block shadow-lg">
@@ -93,7 +99,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
+        <div className="flex flex-col items-center gap-2 opacity-60 mt-10 pb-10">
           <div className="w-px h-12" style={{ background: 'linear-gradient(180deg, transparent, #C8A951)' }} />
           <p className="text-xs tracking-widest uppercase text-blue-300">Scroll to explore</p>
         </div>
@@ -253,7 +259,7 @@ export default async function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="font-display text-4xl font-bold text-white mb-3">3 Days of Memories</h2>
-            <p style={{ color: '#C8A951' }} className="font-crimson text-xl">November 14–16, 2025 at Joka</p>
+            <p style={{ color: '#C8A951' }} className="font-crimson text-xl">December 12–14, 2027 at Joka</p>
             <div className="gold-divider w-24 mx-auto mt-4" />
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">

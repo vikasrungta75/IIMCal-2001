@@ -19,8 +19,8 @@ const travelModeIcon = (mode: string) => {
 export default function TravelPage() {
   const [user, setUser] = useState<any>(null);
   const [form, setForm] = useState({
-    arrivalDate: '2025-11-14', arrivalTime: '14:00', arrivalMode: 'flight',
-    departureDate: '2025-11-16', departureTime: '15:00', departureMode: 'flight',
+    arrivalDate: '2027-12-12', arrivalTime: '14:00', arrivalMode: 'flight',
+    departureDate: '2027-12-14', departureTime: '15:00', departureMode: 'flight',
     flightTrainNumber: '', accommodationRequired: false, accommodationPreference: 'campus',
     roomSharing: false, dietaryPreference: 'vegetarian', specialRequirements: '',
   });
@@ -81,7 +81,7 @@ export default function TravelPage() {
         {/* Getting Here Info Cards */}
         <div className="grid md:grid-cols-3 gap-4 mb-10">
           {[
-            { img: IMGS.kolkataTaxi, icon: '🚕', title: 'From Airport', desc: 'NSCBI → Joka: ~35 km, ~1.5 hrs via Ola/Uber. Campus pickup on Nov 14 at 3 PM & 6 PM.' },
+            { img: IMGS.kolkataTaxi, icon: '🚕', title: 'From Airport', desc: 'NSCBI → Joka: ~35 km, ~1.5 hrs via Ola/Uber. Campus pickup on Dec 12 at 3 PM & 6 PM.' },
             { img: IMGS.howrah, icon: '🚂', title: 'From Station', desc: 'Howrah Station → Joka: ~20 km, ~1 hr. Sealdah → Joka: ~22 km, ~1.15 hrs.' },
             { img: IMGS.campus, icon: '🏫', title: 'Campus Address', desc: 'Diamond Harbour Road, Joka, Kolkata – 700 104. On the southern outskirts of the city.' },
           ].map(({ img, icon, title, desc }) => (
@@ -171,7 +171,7 @@ export default function TravelPage() {
                     <input type="checkbox" checked={form.accommodationRequired} onChange={e => setForm(p => ({ ...p, accommodationRequired: e.target.checked }))} className="w-4 h-4 accent-navy" />
                     <div>
                       <div className="font-medium text-sm" style={{ color: '#003366' }}>Need Accommodation</div>
-                      <div className="text-xs text-gray-500">Book a spot for Nov 14–16</div>
+                      <div className="text-xs text-gray-500">Book a spot for Dec 12–16</div>
                     </div>
                   </label>
                   {form.accommodationRequired && (

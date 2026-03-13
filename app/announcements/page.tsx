@@ -101,7 +101,7 @@ export default function AnnouncementsPage() {
           <div className="absolute inset-0 flex items-center px-8">
             <div>
               <p className="font-display text-2xl font-bold text-white mb-1">See you in Kolkata!</p>
-              <p style={{ color: '#C8A951' }} className="font-crimson text-lg">November 14–16, 2025 · Joka Campus</p>
+              <p style={{ color: '#C8A951' }} className="font-crimson text-lg">December 12–14, 2027 · Joka Campus</p>
             </div>
           </div>
         </div>

@@ -23,9 +23,8 @@ export default async function DashboardPage() {
   const user = db.users.findByUsername(session.username);
   if (!user) redirect('/login');
 
-  // Check approval status
+  // Check approval status — always read from DB (source of truth)
   if (!user.profileSubmitted) redirect('/complete-profile');
-  if (user.status === 'pending') redirect('/pending');
   if (user.status === 'rejected') redirect('/login?error=rejected');
   if (user.status !== 'approved') redirect('/pending');
 
@@ -76,7 +75,7 @@ export default async function DashboardPage() {
                 <Calendar size={20} style={{ color: '#003366' }} />
               </div>
               <div>
-                <div className="font-semibold" style={{ color: '#003366' }}>Event Date: November 14–16, 2025</div>
+                <div className="font-semibold" style={{ color: '#003366' }}>Event Date: December 12–14, 2027</div>
                 <div className="text-sm text-gray-500 flex items-center gap-1">
                   <MapPin size={12} /> Joka Campus, Kolkata
                 </div>
@@ -176,9 +175,9 @@ export default async function DashboardPage() {
                 <h3 className="font-display text-lg font-bold mb-4" style={{ color: '#003366' }}>Event Schedule</h3>
                 <div className="space-y-3">
                   {[
-                    { day: 'Nov 14', event: 'Arrival & Welcome Dinner', icon: '🛬' },
-                    { day: 'Nov 15', event: 'Main Event & Gala Night', icon: '🎉' },
-                    { day: 'Nov 16', event: 'Farewell & Departures', icon: '🛫' },
+                    { day: 'Dec 12', event: 'Arrival & Welcome Dinner', icon: '🛬' },
+                    { day: 'Dec 13', event: 'Main Event & Gala Night', icon: '🎉' },
+                    { day: 'Dec 14', event: 'Farewell & Departures', icon: '🛫' },
                   ].map(({ day, event, icon }) => (
                     <div key={day} className="flex items-center gap-3 p-3 rounded-lg" style={{ background: '#f8f4ec' }}>
                       <span className="text-2xl">{icon}</span>

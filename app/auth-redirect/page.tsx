@@ -1,49 +1,35 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-/**
- * After OAuth login, check user status and route accordingly:
- * - No profile submitted → /complete-profile
- * - Pending approval → /pending
- * - Approved → /dashboard
- * - Rejected → /login?error=rejected
- */
 export default function AuthRedirectPage() {
   const router = useRouter();
+  const { data: session, status, update } = useSession();
+  const [checking, setChecking] = useState(false);
 
   useEffect(() => {
-    fetch('/api/profile')
-      .then(r => r.json())
-      .then(profile => {
-        if (!profile || profile.error) {
-          router.replace('/login');
-          return;
-        }
-        if (profile.isAdmin) {
-          router.replace('/admin');
-          return;
-        }
-        if (profile.status === 'rejected') {
-          router.replace('/login?error=rejected');
-          return;
-        }
-        if (!profile.profileSubmitted) {
+    if (status === 'loading') return;
+    if (status === 'unauthenticated') { router.replace('/login'); return; }
+    if (checking) return;
+    setChecking(true);
+
+    // Force refresh session then check DB directly via API
+    update().then(() => {
+      fetch('/api/profile')
+        .then(r => r.json())
+        .then(profile => {
+          if (!profile || profile.error) { router.replace('/login'); return; }
+          if (profile.isAdmin) { router.replace('/admin'); return; }
+          if (profile.status === 'rejected') { router.replace('/login?error=rejected'); return; }
+          if (!profile.profileSubmitted) { router.replace('/complete-profile'); return; }
+          if (profile.status === 'pending') { router.replace('/pending'); return; }
+          if (profile.status === 'approved') { router.replace('/dashboard'); return; }
           router.replace('/complete-profile');
-          return;
-        }
-        if (profile.status === 'pending') {
-          router.replace('/pending');
-          return;
-        }
-        if (profile.status === 'approved') {
-          router.replace('/dashboard');
-          return;
-        }
-        router.replace('/complete-profile');
-      })
-      .catch(() => router.replace('/login'));
-  }, []);
+        })
+        .catch(() => router.replace('/login'));
+    });
+  }, [status]);
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: '#003366' }}>
