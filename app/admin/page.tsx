@@ -16,6 +16,8 @@ export default function AdminPage() {
   const [showForm, setShowForm] = useState(false);
   const [expandedAnn, setExpandedAnn] = useState<string|null>(null);
   const [approving, setApproving] = useState<string|null>(null);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [deleting, setDeleting] = useState(false);
 
   const loadData = () => {
     Promise.all([
@@ -38,6 +40,49 @@ export default function AdminPage() {
     const data = await res.json();
     alert(data.ok ? `Cleaned up: ${data.deleted} users deleted` : 'Error: ' + data.error);
     loadData();
+  };
+
+  const deleteSelected = async () => {
+    if (selected.size === 0) return;
+    const names = Array.from(selected).join(', ');
+    if (!confirm(`Delete ${selected.size} user(s)? This cannot be undone.\n\n${names}`)) return;
+    setDeleting(true);
+    const res = await fetch('/api/admin/delete-users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ usernames: Array.from(selected) }),
+    });
+    const data = await res.json();
+    setSelected(new Set());
+    setDeleting(false);
+    loadData();
+    if (data.deleted) alert(`Deleted ${data.deleted} user(s) successfully.`);
+  };
+
+  const toggleSelect = (username: string) => {
+    setSelected(prev => {
+      const next = new Set(prev);
+      if (next.has(username)) next.delete(username);
+      else next.add(username);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = (users: any[]) => {
+    const allSelected = users.every(u => selected.has(u.username));
+    if (allSelected) {
+      setSelected(prev => {
+        const next = new Set(prev);
+        users.forEach(u => next.delete(u.username));
+        return next;
+      });
+    } else {
+      setSelected(prev => {
+        const next = new Set(prev);
+        users.forEach(u => next.add(u.username));
+        return next;
+      });
+    }
   };
 
   useEffect(() => { loadData(); }, []);
@@ -166,7 +211,16 @@ export default function AdminPage() {
         {/* PENDING APPROVALS */}
         {tab === 'pending' && (
           <div>
-            <h2 className="font-display text-2xl font-bold mb-2" style={{ color: '#003366' }}>Pending Approvals</h2>
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="font-display text-2xl font-bold" style={{ color: '#003366' }}>Pending Approvals</h2>
+              {selected.size > 0 && (
+                <button onClick={deleteSelected} disabled={deleting}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white disabled:opacity-50"
+                  style={{ background: '#8B0000' }}>
+                  <Trash2 size={15} /> {deleting ? 'Deleting…' : `Delete ${selected.size} selected`}
+                </button>
+              )}
+            </div>
             <p className="text-gray-500 text-sm mb-6">Review and approve alumni who have submitted their profiles for verification.</p>
 
             {!stats?.pendingRegistrations?.length ? (
@@ -177,9 +231,12 @@ export default function AdminPage() {
             ) : (
               <div className="space-y-4">
                 {stats.pendingRegistrations.map((u: any) => (
-                  <div key={u.username} className="iimc-card p-6">
+                  <div key={u.username} className={`iimc-card p-6 transition-colors ${selected.has(u.username) ? 'ring-2 ring-red-300' : ''}`}>
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                       <div className="flex items-center gap-4">
+                        <input type="checkbox" checked={selected.has(u.username)}
+                          onChange={() => toggleSelect(u.username)}
+                          className="w-4 h-4 rounded accent-red-600 flex-shrink-0 cursor-pointer" />
                         <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold text-white flex-shrink-0"
                           style={{ background: 'linear-gradient(135deg, #003366, #C8A951)' }}>
                           {u.fullName?.charAt(0) || '?'}
@@ -221,16 +278,33 @@ export default function AdminPage() {
         {/* REGISTRATIONS */}
         {tab === 'registrations' && (
           <div>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="font-display text-2xl font-bold" style={{ color: '#003366' }}>Approved Alumni ({stats?.totalAlumni || 0})</h2>
-              <button onClick={exportCSV} className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white" style={{ background: '#003366' }}>
-                <Download size={16} /> Export CSV
-              </button>
+            <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
+              <h2 className="font-display text-2xl font-bold" style={{ color: '#003366' }}>
+                Approved Alumni ({stats?.totalAlumni || 0})
+              </h2>
+              <div className="flex items-center gap-3">
+                {selected.size > 0 && (
+                  <button onClick={deleteSelected} disabled={deleting}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white disabled:opacity-50"
+                    style={{ background: '#8B0000' }}>
+                    <Trash2 size={15} /> {deleting ? 'Deleting…' : `Delete ${selected.size} selected`}
+                  </button>
+                )}
+                <button onClick={exportCSV} className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white" style={{ background: '#003366' }}>
+                  <Download size={16} /> Export CSV
+                </button>
+              </div>
             </div>
             <div className="iimc-card overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
                   <tr style={{ background: '#f8f4ec' }}>
+                    <th className="px-4 py-3 w-10">
+                      <input type="checkbox"
+                        checked={(stats?.alumni || []).length > 0 && (stats?.alumni || []).every((u: any) => selected.has(u.username))}
+                        onChange={() => toggleSelectAll(stats?.alumni || [])}
+                        className="w-4 h-4 rounded accent-red-600 cursor-pointer" />
+                    </th>
                     {['Name','Email','Batch','Programme','Company','Location','Joined'].map(h => (
                       <th key={h} className="px-4 py-3 text-left font-semibold text-xs uppercase tracking-wider" style={{ color: '#003366' }}>{h}</th>
                     ))}
@@ -238,7 +312,14 @@ export default function AdminPage() {
                 </thead>
                 <tbody>
                   {(stats?.alumni || []).map((u: any, i: number) => (
-                    <tr key={u.username} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <tr key={u.username}
+                      className={`cursor-pointer transition-colors ${selected.has(u.username) ? 'bg-red-50' : i % 2 === 0 ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 hover:bg-gray-100'}`}
+                      onClick={() => toggleSelect(u.username)}>
+                      <td className="px-4 py-3" onClick={e => e.stopPropagation()}>
+                        <input type="checkbox" checked={selected.has(u.username)}
+                          onChange={() => toggleSelect(u.username)}
+                          className="w-4 h-4 rounded accent-red-600 cursor-pointer" />
+                      </td>
                       <td className="px-4 py-3 font-medium">{u.fullName}</td>
                       <td className="px-4 py-3 text-gray-500">{u.email}</td>
                       <td className="px-4 py-3">{u.batch}</td>
@@ -248,9 +329,25 @@ export default function AdminPage() {
                       <td className="px-4 py-3 text-gray-400 text-xs">{new Date(u.createdAt).toLocaleDateString('en-IN')}</td>
                     </tr>
                   ))}
+                  {!(stats?.alumni || []).length && (
+                    <tr><td colSpan={8} className="px-4 py-8 text-center text-gray-400">No approved alumni yet.</td></tr>
+                  )}
                 </tbody>
               </table>
             </div>
+            {selected.size > 0 && (
+              <div className="mt-3 flex items-center justify-between p-3 rounded-xl text-sm" style={{ background: '#fff5f5', border: '1px solid #fecaca' }}>
+                <span style={{ color: '#8B0000' }}><strong>{selected.size}</strong> user(s) selected</span>
+                <div className="flex gap-3">
+                  <button onClick={() => setSelected(new Set())} className="text-gray-500 hover:text-gray-700 text-xs">Clear selection</button>
+                  <button onClick={deleteSelected} disabled={deleting}
+                    className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-semibold text-white disabled:opacity-50"
+                    style={{ background: '#8B0000' }}>
+                    <Trash2 size={14} /> {deleting ? 'Deleting…' : 'Delete selected'}
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
