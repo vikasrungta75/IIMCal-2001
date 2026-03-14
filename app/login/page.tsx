@@ -60,7 +60,7 @@ export default function LoginPage() {
             "The bonds forged at Joka last a lifetime — welcome home, batchmate."
           </p>
           <div className="gold-divider mt-6 w-32" />
-          <p className="text-blue-300 text-sm mt-4">November 14–16, 2025 · Joka Campus, Kolkata</p>
+          <p className="text-blue-300 text-sm mt-4">December 12–14, 2027 · Joka Campus, Kolkata</p>
         </div>
       </div>
 

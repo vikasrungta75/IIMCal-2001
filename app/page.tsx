@@ -48,13 +48,13 @@ export default async function HomePage() {
             loop
             playsInline
             className="w-full h-full object-cover"
-            style={{ opacity: 0.55 }}
+            style={{ opacity: 0.75 }}
           >
             <source src="/images/campus.webm" type="video/webm" />
             {/* Fallback to static image if video not supported */}
             <img src={IMAGES.campusMain} alt="IIM Calcutta Campus" className="w-full h-full object-cover" />
           </video>
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg,rgba(0,51,102,0.70) 0%,rgba(0,26,51,0.65) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg,rgba(0,51,102,0.55) 0%,rgba(0,26,51,0.50) 100%)' }} />
         </div>
         {/* Dot grid pattern */}
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -76,11 +76,11 @@ export default async function HomePage() {
 
           <h1 className="font-display font-black text-5xl md:text-7xl text-white mb-3 leading-tight">
             Alumni Meet
-            <span className="block" style={{ WebkitTextFillColor: 'transparent', WebkitTextStroke: '1.5px #C8A951' }}>2025</span>
+            <span className="block" style={{ WebkitTextFillColor: 'transparent', WebkitTextStroke: '1.5px #C8A951' }}>2027</span>
           </h1>
 
           <p className="font-crimson text-xl md:text-2xl mb-2" style={{ color: '#C8A951' }}>
-            Celebrating 25 Glorious Years — Batch 1999–2001
+            Celebrating 25 Glorious Years — Batch 2001
           </p>
           <p className="text-blue-200 text-base md:text-lg mb-10">
             December 12–14, 2027 &nbsp;|&nbsp; Joka Campus, Kolkata
@@ -215,7 +215,7 @@ export default async function HomePage() {
       {/* ── ALUMNI VOICES VIDEO ── */}
       <section className="py-20 px-4 max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <div className="badge-gold inline-block mb-4">Class of 1999–2001</div>
+          <div className="badge-gold inline-block mb-4">Class of 2001</div>
           <h2 className="font-display text-4xl font-bold mb-3" style={{ color: '#003366' }}>Alumni Voices</h2>
           <p className="text-gray-500 font-crimson text-xl">Stories from the Joka family</p>
           <div className="gold-divider w-24 mx-auto mt-4" />
@@ -236,7 +236,7 @@ export default async function HomePage() {
               25 Years of Making a Difference
             </h3>
             <p className="font-crimson text-xl leading-relaxed mb-5" style={{ color: '#444' }}>
-              From the boardrooms of Mumbai to the corridors of global institutions — Batch 1999–2001 has left an indelible mark on every field they touched.
+              From the boardrooms of Mumbai to the corridors of global institutions — Batch 2001 has left an indelible mark on every field they touched.
             </p>
             <div className="space-y-3">
               {[
@@ -307,12 +307,12 @@ export default async function HomePage() {
       <footer className="py-10 px-4 text-center" style={{ background: '#001a33', color: '#8899aa' }}>
         <div className="max-w-4xl mx-auto">
           <SafeImage src={IMAGES.logoWhite} alt="IIMC" className="h-10 mx-auto mb-4 opacity-60 object-contain" />
-          <p className="text-sm mb-2">IIM Calcutta Silver Jubilee Alumni Meet 2025</p>
+          <p className="text-sm mb-2">IIM Calcutta Silver Jubilee Alumni Meet 2027</p>
           <p className="text-xs">Diamond Harbour Road, Joka, Kolkata – 700 104 &nbsp;|&nbsp;
             <a href="https://www.iimcal.ac.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">www.iimcal.ac.in</a>
           </p>
           <div className="mt-4 text-xs opacity-40">
-            Images: Wikimedia Commons (free use) · © 2025 IIM Calcutta Alumni Association. All rights reserved.
+            Images: Wikimedia Commons (free use) · © 2027 IIM Calcutta Alumni Association. All rights reserved.
           </div>
         </div>
       </footer>

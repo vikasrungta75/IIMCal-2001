@@ -38,7 +38,7 @@ export default function AdminPage() {
     await fetch('/api/admin/approve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, action, reason: 'Not from Batch 1999-2001' }),
+      body: JSON.stringify({ username, action, reason: 'Not from Batch 2001' }),
     });
     setApproving(null);
     loadData(); // refresh
@@ -95,7 +95,7 @@ export default function AdminPage() {
           <Shield size={36} style={{ color: '#C8A951' }} />
           <div>
             <h1 className="font-display text-3xl font-bold text-white">Admin Dashboard</h1>
-            <p style={{ color: '#E8D5A3' }}>Silver Jubilee 2025 · Event Management</p>
+            <p style={{ color: '#E8D5A3' }}>Silver Jubilee 2027 · Event Management</p>
           </div>
           {pendingCount > 0 && (
             <div className="ml-auto flex items-center gap-2 px-4 py-2 rounded-full" style={{ background: 'rgba(255,165,0,0.2)', border: '1px solid rgba(255,165,0,0.5)' }}>

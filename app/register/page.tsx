@@ -19,7 +19,7 @@ export default function RegisterPage() {
           className="absolute inset-0 w-full h-full object-cover opacity-30" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,26,51,0.95) 30%, rgba(0,51,102,0.3) 100%)' }} />
         <div className="relative z-10">
-          <div className="badge-gold inline-block mb-4">Silver Jubilee 2025</div>
+          <div className="badge-gold inline-block mb-4">Silver Jubilee 2027</div>
           <h2 className="font-display text-4xl font-bold text-white mb-3 leading-tight">
             Join the<br /><span style={{ color: '#C8A951' }}>Joka Reunion</span>
           </h2>
@@ -27,7 +27,7 @@ export default function RegisterPage() {
             Register with your Google or Microsoft account to join the Silver Jubilee portal.
           </p>
           <div className="gold-divider mt-6 w-32" />
-          <p className="text-blue-300 text-sm mt-4">November 14–16, 2025 · Joka Campus, Kolkata</p>
+          <p className="text-blue-300 text-sm mt-4">December 12–14, 2027 · Joka Campus, Kolkata</p>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export default function RegisterPage() {
               <img src="/images/logo-white.svg" alt="IIM Calcutta" className="h-14 mx-auto mb-4 object-contain" />
             </Link>
             <h1 className="font-display text-3xl font-bold text-white mb-1">Register</h1>
-            <p style={{ color: '#C8A951' }} className="text-sm">Batch 1999–2001 Alumni Portal</p>
+            <p style={{ color: '#C8A951' }} className="text-sm">Batch 2001 Alumni Portal</p>
           </div>
 
           <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.97)' }}>
@@ -50,7 +50,7 @@ export default function RegisterPage() {
                 {[
                   { step: '1', text: 'Sign in with Google or Microsoft' },
                   { step: '2', text: 'Fill in your IIMC profile details' },
-                  { step: '3', text: 'Admin verifies you\'re Batch 1999–2001' },
+                  { step: '3', text: 'Admin verifies you\'re Batch 2001' },
                   { step: '4', text: 'Get full access to the portal' },
                 ].map(({ step, text }) => (
                   <div key={step} className="flex items-center gap-3">

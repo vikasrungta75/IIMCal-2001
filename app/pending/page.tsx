@@ -61,7 +61,7 @@ export default function PendingPage() {
         </div>
 
         <p className="text-xs text-gray-400 mb-6">
-          This verification ensures only genuine Batch 1999–2001 alumni can access the portal.
+          This verification ensures only genuine Batch 2001 alumni can access the portal.
         </p>
 
         <div className="space-y-3">

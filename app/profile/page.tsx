@@ -91,7 +91,7 @@ export default function ProfilePage() {
                   <label className="block text-sm font-medium mb-1.5" style={{ color: '#003366' }}>Batch Year</label>
                   <select className="iimc-input" value={form.batch || ''} onChange={e => setForm((p: any) => ({ ...p, batch: e.target.value }))}>
                     <option value="">Select batch</option>
-                    {[['2001','2001'],['1999','1999'],['2000','2000']].map(([y]) => <option key={y} value={y}>{y}</option>)}
+                    {['2001'].map(y => <option key={y} value={y}>{y}</option>)}
                   </select>
                 </div>
                 <div>

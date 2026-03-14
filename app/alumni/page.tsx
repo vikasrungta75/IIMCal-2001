@@ -41,7 +41,7 @@ export default function AlumniPage() {
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
           <Users size={36} style={{ color: '#C8A951' }} className="mb-3" />
           <h1 className="font-display text-4xl font-bold text-white mb-2">Alumni Directory</h1>
-          <p style={{ color: '#E8D5A3' }} className="font-crimson text-lg">Batch 1999–2001 · Joka Family</p>
+          <p style={{ color: '#E8D5A3' }} className="font-crimson text-lg">Batch 2001 · Joka Family</p>
           <p className="text-blue-300 text-sm mt-1">{alumni.length} alumni registered and counting</p>
         </div>
       </div>

@@ -106,13 +106,13 @@ export default function CompleteProfilePage() {
         <div className="text-center mb-8">
           <img src="/images/logo-white.svg" alt="IIM Calcutta" className="h-14 mx-auto mb-4 object-contain" />
           <h1 className="font-display text-3xl font-bold text-white mb-2">Complete Your Profile</h1>
-          <p style={{ color: '#C8A951' }} className="font-crimson text-lg">Help us verify you're part of Batch 1999–2001</p>
+          <p style={{ color: '#C8A951' }} className="font-crimson text-lg">Help us verify you're part of Batch 2001</p>
         </div>
 
         <div className="bg-white rounded-2xl p-8 shadow-2xl">
           <div className="rounded-xl p-4 mb-6 text-sm" style={{ background: '#f0f7ff', border: '1px solid #bde0fe' }}>
             <p className="text-blue-800 font-medium mb-1">🔒 Why do we verify?</p>
-            <p className="text-blue-700 text-xs">This ensures only genuine Batch 1999–2001 alumni can access the portal and your batchmates' contact information. You'll get an email when approved.</p>
+            <p className="text-blue-700 text-xs">This ensures only genuine Batch 2001 alumni can access the portal and your batchmates' contact information. You'll get an email when approved.</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -148,7 +148,7 @@ export default function CompleteProfilePage() {
                 <label className="block text-sm font-medium mb-1.5" style={{ color: '#003366' }}>Batch Year *</label>
                 <select className="iimc-input" value={form.batch} onChange={e => setForm(p => ({ ...p, batch: e.target.value }))} required>
                   <option value="">Select batch</option>
-                  {['1999','2000','2001'].map(y => <option key={y} value={y}>{y}</option>)}
+                  {['2001'].map(y => <option key={y} value={y}>{y}</option>)}
                 </select>
               </div>
               <div>

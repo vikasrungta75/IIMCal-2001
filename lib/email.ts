@@ -113,7 +113,7 @@ export async function sendRejectionEmail(to: string, fullName: string, reason: s
     Thank you for registering for the IIM Calcutta Silver Jubilee Alumni Meet 2027.
   </p>
   <p style="color: #444; line-height: 1.7;">
-    After reviewing your registration, we were unable to verify your alumni status for Batch 1999–2001. ${reason ? `Reason: ${reason}.` : ''}
+    After reviewing your registration, we were unable to verify your alumni status for Batch 2001. ${reason ? `Reason: ${reason}.` : ''}
   </p>
   <p style="color: #444; line-height: 1.7;">
     If you believe this is an error, please contact the organising committee at silverjubilee2027@iimcal.ac.in.

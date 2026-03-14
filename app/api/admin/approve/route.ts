@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, user: safe });
   }
   if (action === 'reject') {
-    const r = reason || 'Not verified as Batch 1999–2001 alumni';
+    const r = reason || 'Not verified as Batch 2001 alumni';
     const updated = await db.users.reject(username, r);
     if (!updated) return NextResponse.json({ error: 'User not found' }, { status: 404 });
     if (updated.email) sendRejectionEmail(updated.email, updated.fullName, r).catch(console.error);
