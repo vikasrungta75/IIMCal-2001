@@ -6,10 +6,10 @@
  */
 
 async function sendEmail(to: string, toName: string, subject: string, html: string): Promise<boolean> {
-  const apiKey = process.env.BREVO_API_KEY;
+  const apiKey = process.env.BREVO_API_KEY || process.env['IIMC-PORTAL'];
 
   if (!apiKey) {
-    console.log('[Email] BREVO_API_KEY not set — skipping email to', to);
+    console.log('[Email] No API key set (BREVO_API_KEY or IIMC-PORTAL) — skipping email to', to);
     return false;
   }
 
