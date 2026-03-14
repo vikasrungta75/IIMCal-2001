@@ -6,71 +6,38 @@ import { useSession } from 'next-auth/react';
 export default function AuthRedirectPage() {
   const router = useRouter();
   const { status } = useSession();
-  const [attempts, setAttempts] = useState(0);
   const [msg, setMsg] = useState('Signing you in…');
 
   useEffect(() => {
-    // Wait for NextAuth session to be ready
     if (status === 'loading') return;
-    if (status === 'unauthenticated') {
-      router.replace('/login');
-      return;
-    }
-    // Session is authenticated - now check DB profile
-    checkProfile();
+    if (status === 'unauthenticated') { router.replace('/login'); return; }
+    // Authenticated - check DB status
+    route();
   }, [status]);
 
-  const checkProfile = async (attempt = 0) => {
-    if (attempt > 0) setMsg(`Verifying your account… (${attempt}/5)`);
-    
-    try {
-      const res = await fetch('/api/profile', { cache: 'no-store' });
-      
-      if (!res.ok) {
-        if (attempt < 5) {
-          setTimeout(() => checkProfile(attempt + 1), 1000);
-          return;
-        }
-        router.replace('/login');
+  const route = async () => {
+    for (let i = 0; i < 6; i++) {
+      if (i > 0) {
+        setMsg(`Verifying… (${i}/5)`);
+        await new Promise(r => setTimeout(r, 1000));
+      }
+      try {
+        // Use /api/me which reads JWT directly - reliable even with NEXTAUTH_URL issues
+        const res = await fetch('/api/me', { cache: 'no-store' });
+        if (!res.ok) continue;
+        const user = await res.json();
+        if (!user || user.error) continue;
+
+        if (user.isAdmin)                                  { router.replace('/admin');           return; }
+        if (user.status === 'rejected')                    { router.replace('/login?error=rejected'); return; }
+        if (user.status === 'approved' && user.profileSubmitted) { router.replace('/dashboard');  return; }
+        if (!user.profileSubmitted)                        { router.replace('/complete-profile'); return; }
+        router.replace('/pending');
         return;
-      }
-
-      const profile = await res.json();
-
-      if (!profile || profile.error) {
-        if (attempt < 5) {
-          setTimeout(() => checkProfile(attempt + 1), 1000);
-          return;
-        }
-        router.replace('/login');
-        return;
-      }
-
-      if (profile.isAdmin) { router.replace('/admin'); return; }
-      if (profile.status === 'rejected') { router.replace('/login?error=rejected'); return; }
-      
-      // Approved and profile complete → dashboard
-      if (profile.status === 'approved' && profile.profileSubmitted) {
-        router.replace('/dashboard');
-        return;
-      }
-      
-      // Profile not filled yet → complete it
-      if (!profile.profileSubmitted) {
-        router.replace('/complete-profile');
-        return;
-      }
-
-      // Pending approval
-      router.replace('/pending');
-
-    } catch (err) {
-      if (attempt < 5) {
-        setTimeout(() => checkProfile(attempt + 1), 1000);
-      } else {
-        router.replace('/login');
-      }
+      } catch {}
     }
+    // All retries failed - send to login
+    router.replace('/login');
   };
 
   return (

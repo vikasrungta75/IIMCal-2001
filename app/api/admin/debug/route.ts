@@ -1,35 +1,33 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { getTokenUser } from '@/lib/auth';
 import { kv } from '@vercel/kv';
-import { getSession } from '@/lib/auth';
 
-export async function GET() {
-  const session = await getSession();
-  if (!session?.isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+export async function GET(req: NextRequest) {
+  const user = await getTokenUser(req);
+  if (!user?.isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   try {
     const usernames = (await kv.smembers('user_list') as string[]) || [];
     const users = [];
     for (const u of usernames) {
-      const user = await kv.get<any>(`user:${u}`);
-      if (user) users.push({ username: user.username, email: user.email, fullName: user.fullName, status: user.status, profileSubmitted: user.profileSubmitted, isAdmin: user.isAdmin });
+      const dbUser = await kv.get<any>(`user:${u}`);
+      if (dbUser) users.push({ username: dbUser.username, email: dbUser.email, fullName: dbUser.fullName, status: dbUser.status, profileSubmitted: dbUser.profileSubmitted, isAdmin: dbUser.isAdmin });
     }
     return NextResponse.json({ userCount: users.length, users });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message });
-  }
+  } catch (err: any) { return NextResponse.json({ error: err.message }); }
 }
 
-export async function DELETE() {
-  const session = await getSession();
-  if (!session?.isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+export async function DELETE(req: NextRequest) {
+  const user = await getTokenUser(req);
+  if (!user?.isAdmin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   try {
     const usernames = (await kv.smembers('user_list') as string[]) || [];
     let deleted = 0;
     for (const u of usernames) {
-      const user = await kv.get<any>(`user:${u}`);
-      if (user && !user.isAdmin) {
+      const dbUser = await kv.get<any>(`user:${u}`);
+      if (dbUser && !dbUser.isAdmin) {
         await kv.del(`user:${u}`);
         await kv.srem('user_list', u);
-        if (user.email) await kv.del(`email:${user.email.toLowerCase()}`);
+        if (dbUser.email) await kv.del(`email:${dbUser.email.toLowerCase()}`);
         deleted++;
       }
     }
@@ -37,7 +35,5 @@ export async function DELETE() {
     for (const id of travelIds) await kv.del(`travel:${id}`);
     await kv.del('travel_list');
     return NextResponse.json({ ok: true, deleted });
-  } catch (err: any) {
-    return NextResponse.json({ error: err.message });
-  }
+  } catch (err: any) { return NextResponse.json({ error: err.message }); }
 }
