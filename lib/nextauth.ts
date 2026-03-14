@@ -17,18 +17,18 @@ export const authOptions: NextAuthOptions = {
         clientId: process.env.AZURE_AD_CLIENT_ID,
         clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
         tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
+        wellKnown: 'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
         authorization: {
+          url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
           params: {
-            scope: 'openid profile email User.Read',
+            scope: 'openid profile email',
             response_type: 'code',
           },
         },
-        // Required for 'common' tenant - issuer contains {tenantid} placeholder
-        // which causes NextAuth to fail token validation
-        checks: ['pkce', 'state'],
-        client: {
-          token_endpoint_auth_method: 'client_secret_post',
-        },
+        token: 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+        userinfo: 'https://graph.microsoft.com/oidc/userinfo',
+        // Skip issuer check - required for 'common' tenant where issuer has {tenantid} placeholder
+        checks: ['state'],
         profile(profile: any) {
           return {
             id: profile.sub ?? profile.oid ?? profile.email,
