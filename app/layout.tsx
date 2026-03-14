@@ -5,8 +5,8 @@ import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/nextauth';
 
 export const metadata: Metadata = {
-  title: 'IIM Calcutta Silver Jubilee 2027 | Batch 2001',
-  description: '25th Silver Jubilee Alumni Meet — December 12-14, 2027, Joka Campus, Kolkata.',
+  title: 'IIM Calcutta Silver Jubilee 2026 | Batch 2001',
+  description: '25th Silver Jubilee Alumni Meet — December 12-14, 2026, Joka Campus, Kolkata.',
   icons: { icon: 'https://www.iimcal.ac.in/sites/default/files/logo.png' },
 };
 

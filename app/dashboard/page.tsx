@@ -47,7 +47,7 @@ export default async function DashboardPage() {
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(0,51,102,0.93) 0%, rgba(0,26,51,0.88) 100%)' }} />
           <div className="relative z-10 px-6 pt-28 pb-10 flex flex-col md:flex-row items-start md:items-end justify-between gap-4">
             <div>
-              <div className="badge-gold inline-block mb-3">Silver Jubilee 2027</div>
+              <div className="badge-gold inline-block mb-3">Silver Jubilee 2026</div>
               <h1 className="font-display text-3xl md:text-4xl font-bold text-white mb-2">
                 Welcome back, {user.fullName.split(' ')[0]}! 🎓
               </h1>
@@ -70,12 +70,12 @@ export default async function DashboardPage() {
                 <Calendar size={20} style={{ color: '#003366' }} />
               </div>
               <div>
-                <div className="font-semibold" style={{ color: '#003366' }}>Event: December 12–14, 2027</div>
+                <div className="font-semibold" style={{ color: '#003366' }}>Event: December 12–14, 2026</div>
                 <div className="text-sm text-gray-500 flex items-center gap-1"><MapPin size={12} /> Joka Campus, Kolkata</div>
               </div>
             </div>
             <div className="flex gap-3">
-              {[{val:'3',label:'Days'},{val:'Dec',label:'Month'},{val:'2027',label:'Year'}].map(({val,label}) => (
+              {[{val:'3',label:'Days'},{val:'Dec',label:'Month'},{val:'2026',label:'Year'}].map(({val,label}) => (
                 <div key={label} className="text-center px-4 py-2 rounded-lg" style={{ background: '#f0ebe0' }}>
                   <div className="font-display text-xl font-bold" style={{ color: '#003366' }}>{val}</div>
                   <div className="text-xs text-gray-500">{label}</div>
@@ -154,7 +154,7 @@ export default async function DashboardPage() {
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-gray-500 mt-3 text-center">December 12–14, 2027 · Diamond Harbour Road, Joka, Kolkata</p>
+                <p className="text-xs text-gray-500 mt-3 text-center">December 12–14, 2026 · Diamond Harbour Road, Joka, Kolkata</p>
               </div>
             </div>
 

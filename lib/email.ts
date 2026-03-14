@@ -35,13 +35,13 @@ export async function sendApprovalEmail(to: string, fullName: string): Promise<b
     <div style="background: linear-gradient(135deg, #003366, #001a33); padding: 40px 32px; text-align: center;">
       <div style="color: #C8A951; font-size: 32px; font-weight: bold; letter-spacing: 4px; margin-bottom: 4px;">IIM</div>
       <div style="color: white; font-size: 13px; letter-spacing: 3px; margin-bottom: 16px;">CALCUTTA</div>
-      <div style="display: inline-block; background: rgba(200,169,81,0.15); border: 1px solid rgba(200,169,81,0.4); color: #C8A951; padding: 6px 20px; border-radius: 20px; font-size: 12px; letter-spacing: 2px;">SILVER JUBILEE 2027</div>
+      <div style="display: inline-block; background: rgba(200,169,81,0.15); border: 1px solid rgba(200,169,81,0.4); color: #C8A951; padding: 6px 20px; border-radius: 20px; font-size: 12px; letter-spacing: 2px;">SILVER JUBILEE 2026</div>
     </div>
     <!-- Body -->
     <div style="padding: 40px 32px;">
       <h1 style="color: #003366; font-size: 24px; margin: 0 0 16px;">Welcome to the Portal, ${fullName}! 🎓</h1>
       <p style="color: #444; line-height: 1.7; margin-bottom: 20px;">
-        Great news! Your registration for the <strong>IIM Calcutta Silver Jubilee Alumni Meet 2027</strong> has been verified and approved by the organising committee.
+        Great news! Your registration for the <strong>IIM Calcutta Silver Jubilee Alumni Meet 2026</strong> has been verified and approved by the organising committee.
       </p>
       <p style="color: #444; line-height: 1.7; margin-bottom: 28px;">
         You now have full access to the alumni portal — connect with batchmates, submit your travel details, and stay updated on event announcements.
@@ -56,7 +56,7 @@ export async function sendApprovalEmail(to: string, fullName: string): Promise<b
       <!-- Event details -->
       <div style="background: #f8f4ec; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
         <p style="color: #003366; font-weight: bold; margin: 0 0 8px;">📅 Event Details</p>
-        <p style="color: #555; margin: 4px 0; font-size: 14px;">📍 December 12–14, 2027</p>
+        <p style="color: #555; margin: 4px 0; font-size: 14px;">📍 December 12–14, 2026</p>
         <p style="color: #555; margin: 4px 0; font-size: 14px;">🏫 IIM Calcutta Campus, Joka, Kolkata</p>
       </div>
       <p style="color: #888; font-size: 13px; line-height: 1.6;">
@@ -66,7 +66,7 @@ export async function sendApprovalEmail(to: string, fullName: string): Promise<b
     </div>
     <!-- Footer -->
     <div style="background: #001a33; padding: 24px 32px; text-align: center;">
-      <p style="color: #8899aa; font-size: 12px; margin: 0;">IIM Calcutta Silver Jubilee Alumni Meet 2027</p>
+      <p style="color: #8899aa; font-size: 12px; margin: 0;">IIM Calcutta Silver Jubilee Alumni Meet 2026</p>
       <p style="color: #8899aa; font-size: 11px; margin: 6px 0 0;">Diamond Harbour Road, Joka, Kolkata – 700 104</p>
     </div>
   </div>
@@ -111,13 +111,13 @@ export async function sendRejectionEmail(to: string, fullName: string, reason: s
 <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 40px 32px; background: white;">
   <div style="color: #003366; font-size: 22px; font-weight: bold; margin-bottom: 20px;">Dear ${fullName},</div>
   <p style="color: #444; line-height: 1.7;">
-    Thank you for registering for the IIM Calcutta Silver Jubilee Alumni Meet 2027.
+    Thank you for registering for the IIM Calcutta Silver Jubilee Alumni Meet 2026.
   </p>
   <p style="color: #444; line-height: 1.7;">
     After reviewing your registration, we were unable to verify your alumni status for Batch 2001. ${reason ? `Reason: ${reason}.` : ''}
   </p>
   <p style="color: #444; line-height: 1.7;">
-    If you believe this is an error, please contact the organising committee at silverjubilee2027@iimcal.ac.in.
+    If you believe this is an error, please contact the organising committee at silverjubilee2026@iimcal.ac.in.
   </p>
   <p style="color: #888; margin-top: 32px; font-size: 13px;">Silver Jubilee Organising Committee<br>IIM Calcutta</p>
 </div>

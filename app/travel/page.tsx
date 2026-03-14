@@ -19,8 +19,8 @@ const travelModeIcon = (mode: string) => {
 export default function TravelPage() {
   const [user, setUser] = useState<any>(null);
   const [form, setForm] = useState({
-    arrivalDate: '2027-12-12', arrivalTime: '14:00', arrivalMode: 'flight',
-    departureDate: '2027-12-14', departureTime: '15:00', departureMode: 'flight',
+    arrivalDate: '2026-12-12', arrivalTime: '14:00', arrivalMode: 'flight',
+    departureDate: '2026-12-14', departureTime: '15:00', departureMode: 'flight',
     flightTrainNumber: '', accommodationRequired: false, accommodationPreference: 'campus',
     roomSharing: false, dietaryPreference: 'vegetarian', specialRequirements: '',
   });

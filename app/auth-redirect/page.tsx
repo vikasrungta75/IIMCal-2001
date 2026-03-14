@@ -4,45 +4,44 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 export default function AuthRedirectPage() {
-  const router = useRouter();
   const { status } = useSession();
+  const router = useRouter();
   const [msg, setMsg] = useState('Signing you in…');
 
   useEffect(() => {
     if (status === 'loading') return;
     if (status === 'unauthenticated') { router.replace('/login'); return; }
-    // Authenticated - check DB status
-    route();
+    
+    // Session ready — check profile from DB
+    let attempts = 0;
+    const check = async () => {
+      attempts++;
+      if (attempts > 1) setMsg(`Setting up your account…`);
+      
+      try {
+        const res = await fetch('/api/me', { cache: 'no-store' });
+        if (!res.ok) throw new Error(`${res.status}`);
+        const user = await res.json();
+        if (!user || user.error) throw new Error('no user');
+
+        if (user.isAdmin)                                       return router.replace('/admin');
+        if (user.status === 'rejected')                         return router.replace('/login?error=rejected');
+        if (user.status === 'approved' && user.profileSubmitted) return router.replace('/dashboard');
+        if (!user.profileSubmitted)                             return router.replace('/complete-profile');
+        return router.replace('/pending');
+      } catch {
+        if (attempts < 6) setTimeout(check, 1200);
+        else router.replace('/login');
+      }
+    };
+    
+    check();
   }, [status]);
 
-  const route = async () => {
-    for (let i = 0; i < 6; i++) {
-      if (i > 0) {
-        setMsg(`Verifying… (${i}/5)`);
-        await new Promise(r => setTimeout(r, 1000));
-      }
-      try {
-        // Use /api/me which reads JWT directly - reliable even with NEXTAUTH_URL issues
-        const res = await fetch('/api/me', { cache: 'no-store' });
-        if (!res.ok) continue;
-        const user = await res.json();
-        if (!user || user.error) continue;
-
-        if (user.isAdmin)                                  { router.replace('/admin');           return; }
-        if (user.status === 'rejected')                    { router.replace('/login?error=rejected'); return; }
-        if (user.status === 'approved' && user.profileSubmitted) { router.replace('/dashboard');  return; }
-        if (!user.profileSubmitted)                        { router.replace('/complete-profile'); return; }
-        router.replace('/pending');
-        return;
-      } catch {}
-    }
-    // All retries failed - send to login
-    router.replace('/login');
-  };
-
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#003366' }}>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#003366,#001a33)' }}>
       <div className="text-center">
+        <img src="/images/logo-white.svg" alt="IIM Calcutta" className="h-12 mx-auto mb-8 object-contain opacity-80" />
         <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4" />
         <p className="text-white font-display text-lg">{msg}</p>
         <p className="text-blue-300 text-sm mt-2">Please wait</p>

@@ -76,17 +76,17 @@ export default async function HomePage() {
 
           <h1 className="font-display font-black text-5xl md:text-7xl text-white mb-3 leading-tight">
             Alumni Meet
-            <span className="block" style={{ WebkitTextFillColor: 'transparent', WebkitTextStroke: '1.5px #C8A951' }}>2027</span>
+            <span className="block" style={{ WebkitTextFillColor: 'transparent', WebkitTextStroke: '1.5px #C8A951' }}>2026</span>
           </h1>
 
           <p className="font-crimson text-xl md:text-2xl mb-2" style={{ color: '#C8A951' }}>
             Celebrating Silver Jubilee — Batch 2001
           </p>
           <p className="text-blue-200 text-base md:text-lg mb-10">
-            December 12–14, 2027 &nbsp;|&nbsp; Joka Campus, Kolkata
+            December 12–14, 2026 &nbsp;|&nbsp; Joka Campus, Kolkata
           </p>
 
-          <Countdown targetDate="2027-12-12T09:00:00+05:30" />
+          <Countdown targetDate="2026-12-12T09:00:00+05:30" />
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
             <Link href="/register" className="gold-btn px-9 py-4 rounded-xl text-base font-semibold inline-block shadow-lg">
@@ -259,7 +259,7 @@ export default async function HomePage() {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14">
             <h2 className="font-display text-4xl font-bold text-white mb-3">3 Days of Memories</h2>
-            <p style={{ color: '#C8A951' }} className="font-crimson text-xl">December 12–14, 2027 at Joka</p>
+            <p style={{ color: '#C8A951' }} className="font-crimson text-xl">December 12–14, 2026 at Joka</p>
             <div className="gold-divider w-24 mx-auto mt-4" />
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -307,12 +307,12 @@ export default async function HomePage() {
       <footer className="py-10 px-4 text-center" style={{ background: '#001a33', color: '#8899aa' }}>
         <div className="max-w-4xl mx-auto">
           <SafeImage src={IMAGES.logoWhite} alt="IIMC" className="h-10 mx-auto mb-4 opacity-60 object-contain" />
-          <p className="text-sm mb-2">IIM Calcutta Silver Jubilee Alumni Meet 2027</p>
+          <p className="text-sm mb-2">IIM Calcutta Silver Jubilee Alumni Meet 2026</p>
           <p className="text-xs">Diamond Harbour Road, Joka, Kolkata – 700 104 &nbsp;|&nbsp;
             <a href="https://www.iimcal.ac.in" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">www.iimcal.ac.in</a>
           </p>
           <div className="mt-4 text-xs opacity-40">
-            Images: Wikimedia Commons (free use) · © 2027 IIM Calcutta Alumni Association. All rights reserved.
+            Images: Wikimedia Commons (free use) · © 2026 IIM Calcutta Alumni Association. All rights reserved.
           </div>
         </div>
       </footer>

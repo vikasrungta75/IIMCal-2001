@@ -16,27 +16,17 @@ export default function LoginPage() {
   const { status } = useSession();
 
   useEffect(() => {
-    // Already logged in → go to appropriate page
-    if (status === 'authenticated') {
-      router.replace('/auth-redirect');
-      return;
-    }
+    if (status === 'authenticated') { router.replace('/auth-redirect'); return; }
     const err = searchParams.get('error');
     if (err === 'rejected') setError('Your registration was not approved. Contact the organising committee.');
-    else if (err === 'OAuthCallback' || err === 'OAuthSignin') setError('Sign-in failed. Please try again.');
-    else if (err) setError('Something went wrong. Please try again.');
+    else if (err) setError('Sign-in failed. Please try again.');
   }, [status, searchParams]);
 
-  // If already logged in, redirect to the right place
-  useEffect(() => {
-    fetch('/api/profile').then(r => r.json()).then(p => {
-      if (!p || p.error) return; // not logged in, stay on login
-      if (p.isAdmin) { router.replace('/admin'); return; }
-      if (p.status === 'approved' && p.profileSubmitted) { router.replace('/dashboard'); return; }
-      if (p.profileSubmitted) { router.replace('/pending'); return; }
-      router.replace('/complete-profile');
-    }).catch(() => {}); // ignore errors - user just not logged in
-  }, []);
+  const handleOAuth = async (provider: 'google' | 'azure-ad') => {
+    setLoading(provider);
+    setError('');
+    await signIn(provider, { callbackUrl: '/auth-redirect' });
+  };
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,17 +39,17 @@ export default function LoginPage() {
     });
     if (result?.ok && !result?.error) {
       router.push('/admin');
-      router.refresh();
     } else {
-      setError('Invalid admin credentials. Check username and password.');
+      setError('Invalid admin credentials.');
     }
     setLoading(null);
   };
 
-  const handleOAuth = async (provider: 'google' | 'azure-ad') => {
-    setLoading(provider);
-    await signIn(provider, { callbackUrl: '/auth-redirect' });
-  };
+  if (status === 'loading') return (
+    <div className="min-h-screen flex items-center justify-center" style={{ background: '#003366' }}>
+      <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+    </div>
+  );
 
   return (
     <div className="min-h-screen flex" style={{ background: 'linear-gradient(160deg,#003366 0%,#001a33 55%,#0a1628 100%)' }}>
@@ -77,44 +67,48 @@ export default function LoginPage() {
             "The bonds forged at Joka last a lifetime — welcome home, batchmate."
           </p>
           <div className="gold-divider mt-6 w-32" />
-          <p className="text-blue-300 text-sm mt-4">December 12–14, 2027 · Joka Campus, Kolkata</p>
+          <p className="text-blue-300 text-sm mt-4">December 12–14, 2026 · Joka Campus, Kolkata</p>
         </div>
       </div>
 
-      {/* Right: login form */}
+      {/* Right panel */}
       <div className="flex-1 flex items-center justify-center p-6 py-20">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <Link href="/">
               <img src="/images/logo-white.svg" alt="IIM Calcutta" className="h-14 mx-auto mb-4 object-contain" />
             </Link>
-            <h1 className="font-display text-3xl font-bold text-white mb-1">Welcome Back</h1>
-            <p style={{ color: '#C8A951' }} className="text-sm">Silver Jubilee Alumni Portal</p>
+            <h1 className="font-display text-3xl font-bold text-white mb-1">
+              {adminMode ? 'Admin Login' : 'Welcome Back'}
+            </h1>
+            <p style={{ color: '#C8A951' }} className="text-sm">Silver Jubilee 2026 · Batch 2001</p>
           </div>
 
           <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.97)' }}>
-            {error && !adminMode && (
-              <div className="mb-4 px-4 py-3 rounded-lg text-sm text-red-700 bg-red-50 border border-red-200">{error}</div>
+
+            {error && (
+              <div className="mb-5 px-4 py-3 rounded-lg text-sm text-red-700 bg-red-50 border border-red-200">{error}</div>
             )}
 
             {!adminMode ? (
               <>
-                {/* Student OAuth login */}
                 <div className="text-center mb-6">
-                  <p className="text-sm text-gray-500 mb-1">Sign in with your Google or Microsoft account</p>
-                  <p className="text-xs text-gray-400">New here? You'll be guided to complete your profile after signing in.</p>
+                  <p className="text-sm text-gray-600 font-medium mb-1">Sign in with your Google or Microsoft account</p>
+                  <p className="text-xs text-gray-400">Use the same account you registered with</p>
                 </div>
-                <div className="space-y-3 mb-6">
+
+                <div className="space-y-3">
                   <button onClick={() => handleOAuth('google')} disabled={loading !== null}
-                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all font-medium text-gray-700 disabled:opacity-50">
+                    className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all font-medium text-gray-700 disabled:opacity-50">
                     {loading === 'google'
                       ? <div className="w-5 h-5 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
                       : <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.8 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 12.95 4 4 12.95 4 24s8.95 20 20 20 20-8.95 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16 19 12 24 12c3.1 0 5.8 1.1 8 2.9l5.7-5.7C34.5 6.5 29.5 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.3 35.3 26.8 36 24 36c-5.3 0-9.7-3.2-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4-4 5.4l6.2 5.2C41.2 34.9 44 29.9 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
                     }
                     Continue with Google
                   </button>
+
                   <button onClick={() => handleOAuth('azure-ad')} disabled={loading !== null}
-                    className="w-full flex items-center justify-center gap-3 py-3 rounded-xl border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all font-medium text-gray-700 disabled:opacity-50">
+                    className="w-full flex items-center justify-center gap-3 py-3.5 rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all font-medium text-gray-700 disabled:opacity-50">
                     {loading === 'azure-ad'
                       ? <div className="w-5 h-5 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin" />
                       : <svg width="20" height="20" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
@@ -122,30 +116,29 @@ export default function LoginPage() {
                     Continue with Microsoft / Hotmail
                   </button>
                 </div>
-                <div className="text-center mt-4 text-sm text-gray-500">
-                  Not registered yet?{' '}
-                  <Link href="/register" className="font-semibold hover:underline" style={{ color: '#003366' }}>Register here →</Link>
+
+                <div className="mt-5 pt-4 border-t border-gray-100 text-center">
+                  <p className="text-sm text-gray-500">
+                    New alumni?{' '}
+                    <Link href="/register" className="font-semibold hover:underline" style={{ color: '#003366' }}>
+                      Register here →
+                    </Link>
+                  </p>
                 </div>
-                <div className="mt-4 pt-4 border-t border-gray-100 text-center">
-                  <button onClick={() => setAdminMode(true)} className="text-xs text-gray-400 hover:text-gray-600 flex items-center gap-1 mx-auto">
+
+                <div className="mt-4 text-center">
+                  <button onClick={() => { setAdminMode(true); setError(''); }}
+                    className="text-xs text-gray-300 hover:text-gray-500 flex items-center gap-1 mx-auto transition-colors">
                     <Shield size={11} /> Admin login
                   </button>
                 </div>
               </>
             ) : (
               <>
-                {/* Admin credentials login */}
-                <div className="flex items-center gap-2 mb-6">
-                  <button onClick={() => setAdminMode(false)} className="text-gray-400 hover:text-gray-600">← Back</button>
-                  <div className="flex items-center gap-2 ml-2">
-                    <Shield size={16} style={{ color: '#8B0000' }} />
-                    <span className="font-semibold text-sm" style={{ color: '#8B0000' }}>Admin Login</span>
-                  </div>
-                </div>
                 <form onSubmit={handleAdminLogin} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-1.5" style={{ color: '#003366' }}>Admin Username</label>
-                    <input className="iimc-input" placeholder="Admin username" value={form.username}
+                    <input className="iimc-input" placeholder="Username" value={form.username}
                       onChange={e => setForm(p => ({ ...p, username: e.target.value }))} required autoComplete="username" />
                   </div>
                   <div>
@@ -153,12 +146,12 @@ export default function LoginPage() {
                     <div className="relative">
                       <input className="iimc-input pr-12" type={showPw ? 'text' : 'password'}
                         value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))} required />
-                      <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                      <button type="button" onClick={() => setShowPw(!showPw)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
                         {showPw ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
                     </div>
                   </div>
-                  {error && <div className="px-4 py-3 rounded-lg text-sm text-red-700 bg-red-50 border border-red-200">{error}</div>}
                   <button type="submit" disabled={loading !== null}
                     className="w-full py-3 rounded-lg font-semibold flex items-center justify-center gap-2 text-white disabled:opacity-60"
                     style={{ background: '#8B0000' }}>
@@ -167,11 +160,18 @@ export default function LoginPage() {
                       : <><LogIn size={18} /> Sign In as Admin</>}
                   </button>
                 </form>
+                <div className="mt-4 text-center">
+                  <button onClick={() => { setAdminMode(false); setError(''); }}
+                    className="text-xs text-gray-400 hover:text-gray-600">← Back to alumni login</button>
+                </div>
               </>
             )}
           </div>
-          <p className="text-center mt-5 text-blue-300 text-xs">
-            <button onClick={() => window.location.href = "/"} className="hover:text-white transition-colors text-blue-300 text-xs">← Back to home</button>
+
+          <p className="text-center mt-5">
+            <button onClick={() => window.location.href = '/'} className="text-blue-300 text-xs hover:text-white transition-colors">
+              ← Back to home
+            </button>
           </p>
         </div>
       </div>
