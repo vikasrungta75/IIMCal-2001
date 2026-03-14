@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Eye, EyeOff, LogIn, Shield } from 'lucide-react';
 
@@ -12,6 +12,14 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const err = searchParams.get('error');
+    if (err === 'rejected') setError('Your registration was not approved. Contact the organising committee.');
+    else if (err === 'OAuthCallback' || err === 'OAuthSignin') setError('Sign-in failed. Please try again.');
+    else if (err) setError('Something went wrong. Please try again.');
+  }, [searchParams]);
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,6 +76,10 @@ export default function LoginPage() {
           </div>
 
           <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.97)' }}>
+            {error && !adminMode && (
+              <div className="mb-4 px-4 py-3 rounded-lg text-sm text-red-700 bg-red-50 border border-red-200">{error}</div>
+            )}
+
             {!adminMode ? (
               <>
                 {/* Student OAuth login */}

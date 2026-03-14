@@ -3,7 +3,6 @@ import AzureADProvider from 'next-auth/providers/azure-ad';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import type { NextAuthOptions } from 'next-auth';
 import bcrypt from 'bcryptjs';
-import { db } from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 
 export const authOptions: NextAuthOptions = {
@@ -25,32 +24,45 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
-        const user = await db.users.findByUsername(credentials.username);
-        if (!user || !user.isAdmin || !user.password) return null;
-        const valid = await bcrypt.compare(credentials.password, user.password);
-        if (!valid) return null;
-        return { id: user.id, name: user.fullName, email: user.email, image: null, username: user.username, isAdmin: true } as any;
+        try {
+          const { db } = await import('@/lib/db');
+          const user = await db.users.findByUsername(credentials.username);
+          if (!user || !user.isAdmin || !user.password) return null;
+          const valid = await bcrypt.compare(credentials.password, user.password);
+          if (!valid) return null;
+          return { id: user.id, name: user.fullName, email: user.email, image: null, username: user.username, isAdmin: true } as any;
+        } catch (err) {
+          console.error('[Auth] credentials error:', err);
+          return null;
+        }
       },
     }),
   ],
 
   callbacks: {
     async signIn({ user, account }: any) {
+      // For OAuth providers - create user record if new, but NEVER throw
       if (account?.provider === 'google' || account?.provider === 'azure-ad') {
-        const existing = await db.users.findByEmail(user.email);
-        if (!existing) {
-          const base = (user.email as string).split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase();
-          const username = base + Math.floor(Math.random() * 900 + 100);
-          await db.users.create({
-            id: uuidv4(), username, password: '',
-            email: user.email, fullName: user.name || username,
-            batch: '', programme: '',
-            createdAt: new Date().toISOString(),
-            status: 'pending', profileSubmitted: false,
-            oauthProvider: account.provider,
-          });
+        try {
+          const { db } = await import('@/lib/db');
+          const existing = await db.users.findByEmail(user.email);
+          if (!existing) {
+            const base = (user.email as string).split('@')[0].replace(/[^a-z0-9]/gi, '').toLowerCase();
+            const username = base + Math.floor(Math.random() * 900 + 100);
+            await db.users.create({
+              id: uuidv4(), username, password: '',
+              email: user.email, fullName: user.name || username,
+              batch: '', programme: '',
+              createdAt: new Date().toISOString(),
+              status: 'pending', profileSubmitted: false,
+              oauthProvider: account.provider,
+            });
+          }
+        } catch (err) {
+          // Log but don't block sign-in — user record will be created on next API call
+          console.error('[Auth] signIn DB error (non-fatal):', err);
         }
-        return true;
+        return true; // Always allow OAuth sign-in
       }
       return true;
     },
@@ -58,17 +70,21 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user, account }: any) {
       if (user) {
         token.username = (user as any).username;
-        token.isAdmin = (user as any).isAdmin;
+        token.isAdmin = (user as any).isAdmin || false;
         token.userId = user.id;
       }
+      // On initial OAuth sign-in, try to enrich token from DB
       if (account?.provider === 'google' || account?.provider === 'azure-ad') {
-        const dbUser = await db.users.findByEmail(token.email as string);
-        if (dbUser) {
-          token.username = dbUser.username;
-          token.userId = dbUser.id;
-          token.isAdmin = !!dbUser.isAdmin;
-          token.status = dbUser.status;
-          token.profileSubmitted = dbUser.profileSubmitted;
+        try {
+          const { db } = await import('@/lib/db');
+          const dbUser = await db.users.findByEmail(token.email as string);
+          if (dbUser) {
+            token.username = dbUser.username;
+            token.userId = dbUser.id;
+            token.isAdmin = !!dbUser.isAdmin;
+          }
+        } catch (err) {
+          console.error('[Auth] jwt DB error (non-fatal):', err);
         }
       }
       return token;
@@ -76,11 +92,9 @@ export const authOptions: NextAuthOptions = {
 
     async session({ session, token }: any) {
       if (token) {
-        (session.user as any).username = token.username;
-        (session.user as any).isAdmin = token.isAdmin;
-        (session.user as any).userId = token.userId;
-        (session.user as any).status = token.status;
-        (session.user as any).profileSubmitted = token.profileSubmitted;
+        (session.user as any).username = token.username || '';
+        (session.user as any).isAdmin = token.isAdmin || false;
+        (session.user as any).userId = token.userId || '';
       }
       return session;
     },
