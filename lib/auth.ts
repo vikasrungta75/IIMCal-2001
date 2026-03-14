@@ -1,7 +1,6 @@
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/nextauth';
 import { SignJWT, jwtVerify } from 'jose';
-import { cookies } from 'next/headers';
 
 const SECRET = new TextEncoder().encode(
   process.env.NEXTAUTH_SECRET || 'iimc-jubilee-secret'
@@ -25,37 +24,48 @@ export async function verifyToken(token: string) {
 export async function getSession() {
   try {
     const s = await getServerSession(authOptions);
-    if (s?.user) {
-      let username = (s.user as any).username || '';
-      let userId = (s.user as any).userId || '';
-      let status = (s.user as any).status;
-      let profileSubmitted = (s.user as any).profileSubmitted;
+    if (!s?.user) return null;
 
-      // Always look up from DB for OAuth users to get fresh status
-      if (s.user.email) {
-        const { db } = await import('@/lib/db');
-        const dbUser = await db.users.findByEmail(s.user.email);
-        if (dbUser) {
-          username = dbUser.username;
-          userId = dbUser.id;
-          status = dbUser.status;
-          profileSubmitted = dbUser.profileSubmitted;
-        }
-      }
+    const { db } = await import('@/lib/db');
 
-      if (username) {
+    // For admin (credentials login) - they have username in token but email may differ
+    const tokenUsername = (s.user as any).username;
+    const tokenIsAdmin = (s.user as any).isAdmin;
+    
+    if (tokenIsAdmin && tokenUsername) {
+      const adminUser = await db.users.findByUsername(tokenUsername);
+      if (adminUser?.isAdmin) {
         return {
-          userId,
-          username,
-          isAdmin: (s.user as any).isAdmin || false,
-          status: status || 'pending',
-          profileSubmitted: profileSubmitted || false,
-          name: s.user.name || '',
-          email: s.user.email || '',
-          image: s.user.image || '',
+          userId: adminUser.id,
+          username: adminUser.username,
+          isAdmin: true,
+          status: 'approved' as const,
+          profileSubmitted: true,
+          name: adminUser.fullName,
+          email: adminUser.email,
+          image: '',
         };
       }
     }
-  } catch {}
-  return null;
+
+    // For OAuth users - use email as the primary key (most reliable)
+    if (!s.user.email) return null;
+    
+    const dbUser = await db.users.findByEmail(s.user.email);
+    if (!dbUser) return null;
+
+    return {
+      userId: dbUser.id,
+      username: dbUser.username,
+      isAdmin: !!dbUser.isAdmin,
+      status: dbUser.status || 'pending',
+      profileSubmitted: dbUser.profileSubmitted || false,
+      name: s.user.name || dbUser.fullName || '',
+      email: s.user.email,
+      image: s.user.image || '',
+    };
+  } catch (err) {
+    console.error('[getSession] error:', err);
+    return null;
+  }
 }

@@ -16,8 +16,12 @@ export default async function DashboardPage() {
   if (!session) redirect('/login');
   if (session.isAdmin) redirect('/admin');
 
-  const user = await db.users.findByUsername(session.username);
+  // Look up user - try username first, fall back to email
+  let user = session.username ? await db.users.findByUsername(session.username) : null;
+  if (!user && session.email) user = await db.users.findByEmail(session.email);
   if (!user) redirect('/login');
+
+  // Always use DB status (not JWT - JWT can be stale)
   if (!user.profileSubmitted) redirect('/complete-profile');
   if (user.status === 'rejected') redirect('/login?error=rejected');
   if (user.status !== 'approved') redirect('/pending');
