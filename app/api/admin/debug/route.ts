@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getTokenUser } from '@/lib/auth';
-import { kv } from '@vercel/kv';
+import { redis as kv } from '@/lib/kv';
 
 export async function GET(req: NextRequest) {
   const user = await getTokenUser(req);

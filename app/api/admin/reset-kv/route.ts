@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { redis as kv } from '@/lib/kv';
 import { getTokenUser } from '@/lib/auth';
 
 // Force reset the admin user record (to update password hash etc)

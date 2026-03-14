@@ -3,7 +3,7 @@
  * Primary: Vercel KV | Fallback: In-memory (same serverless instance only)
  */
 
-import { kv } from '@vercel/kv';
+import { redis as kv } from '@/lib/kv';
 
 export interface User {
   id: string;
