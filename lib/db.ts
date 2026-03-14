@@ -81,7 +81,7 @@ async function _seed(): Promise<void> {
     // Seed admin
     await kv.set(`user:iimcadmin2026`, SEED_ADMIN);
     await kv.sadd('user_list', 'iimcadmin2026');
-    await kv.set(`email:admin@iimcal.ac.in`, 'iimcadmin2025');
+    await kv.set(`email:admin@iimcal.ac.in`, 'iimcadmin2026');
 
     // Seed announcements
     for (const ann of SEED_ANNOUNCEMENTS) {
