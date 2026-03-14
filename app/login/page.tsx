@@ -21,6 +21,17 @@ export default function LoginPage() {
     else if (err) setError('Something went wrong. Please try again.');
   }, [searchParams]);
 
+  // If already logged in, redirect to the right place
+  useEffect(() => {
+    fetch('/api/profile').then(r => r.json()).then(p => {
+      if (!p || p.error) return; // not logged in, stay on login
+      if (p.isAdmin) { router.replace('/admin'); return; }
+      if (p.status === 'approved' && p.profileSubmitted) { router.replace('/dashboard'); return; }
+      if (p.profileSubmitted) { router.replace('/pending'); return; }
+      router.replace('/complete-profile');
+    }).catch(() => {}); // ignore errors - user just not logged in
+  }, []);
+
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading('credentials');

@@ -78,10 +78,11 @@ export async function sendApprovalEmail(to: string, fullName: string): Promise<b
 
     if (!res.ok) {
       const err = await res.text();
-      console.error('[Email] Resend error:', err);
+      console.error('[Email] Resend error:', res.status, err);
       return false;
     }
-    console.log('[Email] Approval email sent to', to);
+    const data = await res.json();
+    console.log('[Email] Approval email sent to', to, '- id:', data.id);
     return true;
   } catch (err) {
     console.error('[Email] Failed to send:', err);
