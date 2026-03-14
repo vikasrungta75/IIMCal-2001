@@ -16,8 +16,6 @@ export const authOptions: NextAuthOptions = {
       AzureADProvider({
         clientId: process.env.AZURE_AD_CLIENT_ID,
         clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-        // 'consumers' supports personal Hotmail/Outlook/Live accounts
-        // 'common' supports both personal + work/school
         tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
         authorization: {
           params: {
@@ -25,10 +23,16 @@ export const authOptions: NextAuthOptions = {
             response_type: 'code',
           },
         },
+        // Required for 'common' tenant - issuer contains {tenantid} placeholder
+        // which causes NextAuth to fail token validation
+        checks: ['pkce', 'state'],
+        client: {
+          token_endpoint_auth_method: 'client_secret_post',
+        },
         profile(profile: any) {
           return {
-            id: profile.sub ?? profile.oid,
-            name: profile.name ?? profile.preferred_username,
+            id: profile.sub ?? profile.oid ?? profile.email,
+            name: profile.name ?? profile.preferred_username ?? profile.email,
             email: profile.email ?? profile.preferred_username,
             image: null,
           };
