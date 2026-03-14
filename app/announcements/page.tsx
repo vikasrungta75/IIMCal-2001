@@ -21,10 +21,11 @@ export default function AnnouncementsPage() {
       fetch('/api/announcements').then(r => r.json()),
       fetch('/api/profile').then(r => r.json()),
     ]).then(([anns, profile]) => {
+      if (!profile || profile.error) { window.location.href = '/login'; return; }
+      setUser(profile);
       setAnnouncements(Array.isArray(anns) ? anns : []);
-      if (profile && !profile.error) setUser(profile);
       setLoading(false);
-    });
+    }).catch(() => { window.location.href = '/login'; });
   }, []);
 
   const filtered = filter === 'all' ? announcements : announcements.filter(a => a.category === filter);

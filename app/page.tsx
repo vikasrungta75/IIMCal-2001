@@ -80,7 +80,7 @@ export default async function HomePage() {
           </h1>
 
           <p className="font-crimson text-xl md:text-2xl mb-2" style={{ color: '#C8A951' }}>
-            Celebrating 25 Glorious Years — Batch 2001
+            Celebrating Silver Jubilee — Batch 2001
           </p>
           <p className="text-blue-200 text-base md:text-lg mb-10">
             December 12–14, 2027 &nbsp;|&nbsp; Joka Campus, Kolkata

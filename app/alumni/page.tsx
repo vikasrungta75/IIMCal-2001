@@ -19,10 +19,11 @@ export default function AlumniPage() {
       fetch('/api/alumni').then(r => r.json()),
       fetch('/api/profile').then(r => r.json()),
     ]).then(([list, profile]) => {
+      if (!profile || profile.error) { window.location.href = '/login'; return; }
+      setUser(profile);
       setAlumni(Array.isArray(list) ? list : []);
-      if (profile && !profile.error) setUser(profile);
       setLoading(false);
-    });
+    }).catch(() => { window.location.href = '/login'; });
   }, []);
 
   const filtered = alumni.filter(a =>

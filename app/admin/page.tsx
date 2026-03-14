@@ -23,6 +23,7 @@ export default function AdminPage() {
       fetch('/api/announcements').then(r => r.json()),
       fetch('/api/admin/stats').then(r => r.json()),
     ]).then(([u, a, s]) => {
+      if (!u || u.error) { window.location.href = '/login'; return; }
       if (!u.isAdmin) { window.location.href = '/dashboard'; return; }
       setUser(u);
       setAnnouncements(Array.isArray(a) ? a : []);

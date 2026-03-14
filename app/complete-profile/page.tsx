@@ -129,16 +129,12 @@ export default function CompleteProfilePage() {
                 Email Address * <span className="text-xs font-normal text-gray-400">(for approval notification)</span>
               </label>
               <input
-                className="iimc-input"
+                className="iimc-input bg-gray-50"
                 type="email"
-                placeholder="your@email.com"
                 value={form.email}
-                onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                required
+                readOnly
               />
-              {profile?.email && form.email === profile.email && (
-                <p className="text-xs text-green-600 mt-1">✓ Pre-filled from your {profile.oauthProvider === 'google' ? 'Google' : 'Microsoft'} account</p>
-              )}
+              <p className="text-xs text-green-600 mt-1">✓ From your {profile?.oauthProvider === 'google' ? 'Google' : 'Microsoft'} account — cannot be changed</p>
             </div>
 
             {field('Phone Number', 'phone', { type: 'tel', placeholder: '+91 98765 43210' })}

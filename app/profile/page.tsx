@@ -17,10 +17,11 @@ export default function ProfilePage() {
 
   useEffect(() => {
     fetch('/api/profile').then(r => r.json()).then(data => {
+      if (!data || data.error) { window.location.href = '/login'; return; }
       setProfile(data);
       setForm({ ...data });
       setLoading(false);
-    });
+    }).catch(() => { window.location.href = '/login'; });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

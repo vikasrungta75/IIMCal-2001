@@ -33,10 +33,11 @@ export default function TravelPage() {
       fetch('/api/travel').then(r => r.json()),
       fetch('/api/profile').then(r => r.json()),
     ]).then(([travel, profile]) => {
+      if (!profile || profile.error) { window.location.href = '/login'; return; }
+      setUser(profile);
       if (travel && !travel.error) setForm((p: any) => ({ ...p, ...travel }));
-      if (profile && !profile.error) setUser(profile);
       setLoading(false);
-    });
+    }).catch(() => { window.location.href = '/login'; });
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -171,7 +172,7 @@ export default function TravelPage() {
                     <input type="checkbox" checked={form.accommodationRequired} onChange={e => setForm(p => ({ ...p, accommodationRequired: e.target.checked }))} className="w-4 h-4 accent-navy" />
                     <div>
                       <div className="font-medium text-sm" style={{ color: '#003366' }}>Need Accommodation</div>
-                      <div className="text-xs text-gray-500">Book a spot for Dec 12–16</div>
+                      <div className="text-xs text-gray-500">Book a spot for Dec 12–14</div>
                     </div>
                   </label>
                   {form.accommodationRequired && (
