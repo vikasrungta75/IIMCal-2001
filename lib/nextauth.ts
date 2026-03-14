@@ -18,7 +18,7 @@ export const authOptions: NextAuthOptions = {
         clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
         // 'consumers' supports personal Hotmail/Outlook/Live accounts
         // 'common' supports both personal + work/school
-        tenantId: process.env.AZURE_AD_TENANT_ID || 'consumers',
+        tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
         authorization: {
           params: {
             scope: 'openid profile email User.Read',
