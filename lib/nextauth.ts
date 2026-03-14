@@ -120,7 +120,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  pages: { signIn: '/login', error: '/login' },
+  pages: { signIn: '/login', error: '/auth/error' },
   session: { strategy: 'jwt' },
   secret: process.env.NEXTAUTH_SECRET || 'iimc-jubilee-secret',
 };
