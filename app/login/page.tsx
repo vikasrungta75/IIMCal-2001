@@ -18,8 +18,12 @@ export default function LoginPage() {
   useEffect(() => {
     if (status === 'authenticated') { router.replace('/auth-redirect'); return; }
     const err = searchParams.get('error');
-    if (err === 'rejected') setError('Your registration was not approved. Contact the organising committee.');
-    else if (err) setError('Sign-in failed. Please try again.');
+    if (err === 'rejected') {
+      setError('Your registration was not approved. Contact the organising committee.');
+    } else if (err && err !== 'rejected') {
+      // Redirect to proper error page with the error code
+      window.location.href = `/auth/error?error=${err}`;
+    }
   }, [status, searchParams]);
 
   const handleOAuth = async (provider: 'google' | 'azure-ad') => {
