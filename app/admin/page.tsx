@@ -254,12 +254,12 @@ export default function AdminPage() {
                         </div>
                       </div>
                       <div className="flex gap-3 flex-shrink-0">
-                        <button onClick={() => handleApprove(u.username, 'reject')} disabled={approving === u.username}
+                        <button onClick={(e) => { e.stopPropagation(); handleApprove(u.username, 'reject'); }} disabled={approving === u.username}
                           className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border-2 transition-all disabled:opacity-50"
                           style={{ borderColor: '#8B0000', color: '#8B0000' }}>
                           <XCircle size={16} /> Reject
                         </button>
-                        <button onClick={() => handleApprove(u.username, 'approve')} disabled={approving === u.username}
+                        <button onClick={(e) => { e.stopPropagation(); handleApprove(u.username, 'approve'); }} disabled={approving === u.username}
                           className="flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-semibold text-white transition-all disabled:opacity-50"
                           style={{ background: '#166534' }}>
                           {approving === u.username
