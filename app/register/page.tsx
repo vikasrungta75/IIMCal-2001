@@ -13,14 +13,7 @@ export default function RegisterPage() {
     // If already logged in, redirect appropriately
     if (status === 'loading') return;
     if (status === 'authenticated') {
-      // Check their actual status in DB
-      fetch('/api/profile').then(r => r.json()).then(p => {
-        if (!p || p.error) return;
-        if (p.isAdmin) { router.replace('/admin'); return; }
-        if (p.status === 'approved' && p.profileSubmitted) { router.replace('/dashboard'); return; }
-        if (p.profileSubmitted) { router.replace('/pending'); return; }
-        router.replace('/complete-profile');
-      });
+      router.replace('/auth-redirect');
     }
   }, [status]);
 
@@ -29,18 +22,19 @@ export default function RegisterPage() {
     await signIn(provider, { callbackUrl: '/auth-redirect' });
   };
 
-  if (status === 'loading') return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: '#003366' }}>
-      <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin" />
-    </div>
-  );
+  if (status === 'loading' || status === 'authenticated') {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: '#003366' }}>
+        <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex" style={{ background: 'linear-gradient(160deg,#003366 0%,#001a33 55%,#0a1628 100%)' }}>
       {/* Left panel */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden flex-col justify-end p-12">
-        <img src="/images/campus.jpg" alt="IIM Calcutta Campus"
-          className="absolute inset-0 w-full h-full object-cover opacity-30" />
+        <img src="/images/campus.jpg" alt="IIM Calcutta Campus" className="absolute inset-0 w-full h-full object-cover opacity-30" />
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(0,26,51,0.95) 30%, rgba(0,51,102,0.3) 100%)' }} />
         <div className="relative z-10">
           <div className="badge-gold inline-block mb-4">Silver Jubilee 2027</div>
@@ -55,7 +49,7 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      {/* Right: register */}
+      {/* Right panel */}
       <div className="flex-1 flex items-center justify-center p-6 py-20">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
@@ -65,21 +59,19 @@ export default function RegisterPage() {
           </div>
 
           <div className="rounded-2xl p-8" style={{ background: 'rgba(255,255,255,0.97)' }}>
-            <div className="mb-6">
-              <p className="text-sm font-semibold text-center mb-4" style={{ color: '#003366' }}>How registration works</p>
-              <div className="space-y-3">
-                {[
-                  { step: '1', text: 'Sign in with Google or Microsoft' },
-                  { step: '2', text: 'Fill in your IIMC profile details' },
-                  { step: '3', text: 'Admin verifies you\'re Batch 2001' },
-                  { step: '4', text: 'Get full access to the portal' },
-                ].map(({ step, text }) => (
-                  <div key={step} className="flex items-center gap-3">
-                    <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: '#003366' }}>{step}</div>
-                    <p className="text-sm text-gray-600">{text}</p>
-                  </div>
-                ))}
-              </div>
+            <p className="text-sm font-semibold text-center mb-4" style={{ color: '#003366' }}>How it works</p>
+            <div className="space-y-3 mb-6">
+              {[
+                { step:'1', text:'Sign in with Google or Microsoft' },
+                { step:'2', text:'Fill in your Batch 2001 profile details' },
+                { step:'3', text:'Admin verifies you\'re Batch 2001' },
+                { step:'4', text:'Get full access to the portal' },
+              ].map(({ step, text }) => (
+                <div key={step} className="flex items-center gap-3">
+                  <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{ background: '#003366' }}>{step}</div>
+                  <p className="text-sm text-gray-600">{text}</p>
+                </div>
+              ))}
             </div>
 
             <div className="border-t border-gray-100 pt-5 space-y-3">
@@ -105,7 +97,7 @@ export default function RegisterPage() {
             </p>
           </div>
           <p className="text-center mt-5 text-blue-300 text-xs">
-            <button onClick={() => router.push('/')} className="hover:text-white transition-colors">← Back to home</button>
+            <Link href="/" className="hover:text-white transition-colors">← Back to home</Link>
           </p>
         </div>
       </div>

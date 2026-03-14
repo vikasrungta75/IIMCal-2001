@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Eye, EyeOff, LogIn, Shield } from 'lucide-react';
@@ -13,13 +13,19 @@ export default function LoginPage() {
   const [loading, setLoading] = useState<string | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { status } = useSession();
 
   useEffect(() => {
+    // Already logged in → go to appropriate page
+    if (status === 'authenticated') {
+      router.replace('/auth-redirect');
+      return;
+    }
     const err = searchParams.get('error');
     if (err === 'rejected') setError('Your registration was not approved. Contact the organising committee.');
     else if (err === 'OAuthCallback' || err === 'OAuthSignin') setError('Sign-in failed. Please try again.');
     else if (err) setError('Something went wrong. Please try again.');
-  }, [searchParams]);
+  }, [status, searchParams]);
 
   // If already logged in, redirect to the right place
   useEffect(() => {

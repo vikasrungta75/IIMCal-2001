@@ -31,6 +31,14 @@ export default function AdminPage() {
     });
   };
 
+  const cleanupDB = async () => {
+    if (!confirm('This will DELETE all non-admin users and travel data. Are you sure?')) return;
+    const res = await fetch('/api/admin/debug', { method: 'DELETE' });
+    const data = await res.json();
+    alert(data.ok ? `Cleaned up: ${data.deleted} users deleted` : 'Error: ' + data.error);
+    loadData();
+  };
+
   useEffect(() => { loadData(); }, []);
 
   const handleApprove = async (username: string, action: 'approve' | 'reject') => {
@@ -126,6 +134,7 @@ export default function AdminPage() {
 
         {/* OVERVIEW */}
         {tab === 'overview' && (
+          <>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
             {[
               { label: 'Approved Alumni', value: stats?.totalAlumni || 0, icon: '✅', color: '#166534', bg: '#f0fdf4' },
@@ -141,6 +150,16 @@ export default function AdminPage() {
               </div>
             ))}
           </div>
+          <div className="mt-6 pt-6 border-t border-gray-100 flex items-center justify-between">
+            <div>
+              <p className="font-semibold text-sm" style={{ color: '#003366' }}>Database Management</p>
+              <p className="text-xs text-gray-400 mt-0.5">Remove test/invalid registrations from the system</p>
+            </div>
+            <button onClick={cleanupDB} className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white" style={{ background: '#8B0000' }}>
+              Clean Up Test Data
+            </button>
+          </div>
+          </>
         )}
 
         {/* PENDING APPROVALS */}
