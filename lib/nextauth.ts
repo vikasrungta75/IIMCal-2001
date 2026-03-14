@@ -16,11 +16,22 @@ export const authOptions: NextAuthOptions = {
       AzureADProvider({
         clientId: process.env.AZURE_AD_CLIENT_ID,
         clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
-        tenantId: process.env.AZURE_AD_TENANT_ID || 'common',
+        // 'consumers' supports personal Hotmail/Outlook/Live accounts
+        // 'common' supports both personal + work/school
+        tenantId: process.env.AZURE_AD_TENANT_ID || 'consumers',
         authorization: {
           params: {
-            scope: 'openid profile email offline_access',
+            scope: 'openid profile email User.Read',
+            response_type: 'code',
           },
+        },
+        profile(profile: any) {
+          return {
+            id: profile.sub ?? profile.oid,
+            name: profile.name ?? profile.preferred_username,
+            email: profile.email ?? profile.preferred_username,
+            image: null,
+          };
         },
       }),
     ] : []),
@@ -48,7 +59,8 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    async signIn({ user, account }: any) {
+    async signIn({ user, account, profile, error }: any) {
+      if (error) console.error('[NextAuth signIn error]', error);
       // For OAuth providers - create user record if new, but NEVER throw
       if (account?.provider === 'google' || account?.provider === 'azure-ad') {
         try {
